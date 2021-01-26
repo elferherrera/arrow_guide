@@ -1,6 +1,0 @@
-[book]
-authors = ["Fernando Herrera"]
-language = "en"
-multilingual = false
-src = "src"
-title = "Apache Arrow [Rust]"

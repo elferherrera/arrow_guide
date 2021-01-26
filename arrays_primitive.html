@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Primitive array - Apache Arrow [Rust]</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array Data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html" class="active"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.4.</strong> Operations with arrays</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.5.</strong> Nested arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Apache Arrow [Rust]</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#primitive-arrays" id="primitive-arrays">Primitive arrays</a></h1>
+<p>A primitive array
+(<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>)
+is a type of array used to store a list of elements of the same type. It
+includes fixed bit-width, variable-size, binary and null arrays.</p>
+<p>Lets begin with an example of a primitive array and how the data looks like
+when printed.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::array::{ArrayData, PrimitiveArray};
+use arrow::datatypes::{DataType, Int32Type, ToByteSlice};
+
+use std::sync::Arc;
+
+fn main() {
+    let buffer = Buffer::from(&amp;[0u32, 1, 2, 3, 4, 5].to_byte_slice());
+    let data = ArrayData::new(DataType::Int32, 6, None, None, 0, vec![buffer], vec![]);
+
+    let array: PrimitiveArray&lt;Int32Type&gt; = PrimitiveArray::&lt;Int32Type&gt;::from(Arc::new(data));
+    println!(&quot;{:?}&quot;, array);
+}
+</code></pre></pre>
+<p>This time you should see in your console output something like this</p>
+<pre><code class="language-json">PrimitiveArray&lt;Int32&gt;
+    [ 0,
+      1,
+      2,
+      3,
+      4,
+      5,
+    ]
+</code></pre>
+<p>It seems that this time the primitive array knows how to represent the data
+that is stored in the buffer using the correct datatype. When we print the
+array we no longer see zeros padding the data (easier for us humans to
+understand, isn't it).</p>
+<p>You may have noticed that we used the <strong>From</strong> trait in order to create the
+array from the ArrayData. Lucky for us, in the Arrow crate there are several
+ways to create arrays. </p>
+<h2><a class="header" href="#the-array-builders" id="the-array-builders">The array builders</a></h2>
+<p>Lets make our life simpler by using the constructors defined within the crate.
+This constructors will do all the job of defining the buffers, data arrays and
+datatypes. They will even help us define the validity buffer used to mark the
+presence of null values.</p>
+<p>For this example we will use an Int32Builder which is a type definition created
+from
+<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveBuilder.html">PrimitiveBuilder</a></p>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::Int32Builder;
+
+fn main() {
+    let mut primitive_array_builder = Int32Builder::new(20);
+
+    primitive_array_builder.append_value(5).unwrap();
+    primitive_array_builder.append_value(10000).unwrap();
+    primitive_array_builder.append_value(2000000).unwrap();
+    primitive_array_builder.append_null().unwrap();
+    primitive_array_builder.append_slice(&amp;[1, 2, 3]).unwrap();
+    primitive_array_builder.append_null().unwrap();
+    primitive_array_builder
+        .append_slice(&amp;(0..10).collect::&lt;Vec&lt;i32&gt;&gt;())
+        .unwrap();
+
+    let primitive_array = primitive_array_builder.finish();
+    println!(&quot;{:?}&quot;, primitive_array);
+
+}
+</code></pre></pre>
+<p>As you can see, now the array was created in a more organic way. We didn't
+need to define all the elements that compose the array. This builder will let
+us add as many values as we need (thanks to the
+<a href="https://docs.rs/arrow/2.0.0/arrow/buffer/struct.MutableBuffer.html">MutableBuffer</a>
+that is used by the constructor). We can add values, slices and nulls in one
+go. When there are no more values to add, the builder will create a primitive
+array that represents all the data stored within the data buffer. </p>
+<p>It should be mentioned that once the builder finishes the array, it will clear
+its memory and the builder can be used again to create another primitive array.</p>
+<blockquote>
+<p><strong>Note</strong>. The Arrow create also has
+<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.BufferBuilder.html">BufferBuilders</a>
+that behave like the array builders. They can be used to create buffers in a
+dynamic way by adding values as needed. The finish buffer can be used to
+create arrays of different types.</p>
+</blockquote>
+<h1><a class="header" href="#using-traits" id="using-traits">Using traits</a></h1>
+<p>We can also create arrays by using vectors of elements. This is thanks to the
+<strong>From</strong> trait implemented in the crate.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::{PrimitiveArray, Int32Array};
+use arrow::datatypes::{Date64Type, Time64MicrosecondType};
+
+fn main() {
+    // Creating an array from a vector of options
+    let array = Int32Array::from(vec![Some(0), None, Some(2), None, Some(4)]);
+    println!(&quot;{:?}&quot;, array);
+
+    // Creating an array from a vector of Date64Types using the into method
+    let date_array: PrimitiveArray&lt;Date64Type&gt; =
+        vec![Some(1550902545147), None, Some(1550902545147)].into();
+    println!(&quot;{:?}&quot;, date_array);
+
+    // Creating an array from a vector of Date64Types using the from method
+    let date_array: PrimitiveArray&lt;Date64Type&gt; = 
+        PrimitiveArray::&lt;Date64Type&gt;::from(vec![Some(1550902545147), None, Some(1550902545147)]);
+    println!(&quot;{:?}&quot;, date_array);
+
+    let time_array: PrimitiveArray&lt;Time64MicrosecondType&gt; = 
+        (0..100).collect::&lt;Vec&lt;i64&gt;&gt;().into();
+    println!(&quot;{:?}&quot;, time_array);
+}
+</code></pre></pre>
+<p>As you can see from these examples, it is relatively easy to create primitive
+arrays to store data in memory. The create has a variety of methods to store
+data in memory that follows the Arrow specification; all data is padded and
+aligned. </p>
+<p>Also, since all the arrays store an atomic reference to the buffers, it can be
+shared between processes without copying the data. However, before we venture
+into data sharing is important to see what operations are defined for the arrays
+and also review the available nested structures and how they can be created
+using primitive arrays.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="arrays_data.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="arrays_operations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="arrays_data.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="arrays_operations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

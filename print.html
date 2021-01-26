@@ -1,0 +1,955 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Apache Arrow [Rust]</title>
+        
+        <meta name="robots" content="noindex" />
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array Data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.4.</strong> Operations with arrays</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.5.</strong> Nested arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Apache Arrow [Rust]</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<p>Welcome to the Apache Arrow guide for the Rust programming language.  This
+guide was created to help you become familiar with the Arrow crate and its
+functionalities. </p>
+<h2><a class="header" href="#what-is-apache-arrow" id="what-is-apache-arrow">What is Apache Arrow?</a></h2>
+<p>According to its <a href="https://arrow.apache.org">website</a> Apache Arrow is defined
+as:</p>
+<blockquote>
+<p>A language-independent columnar memory format for flat and hierarchical data,
+organized for efficient analytic operations on modern hardware like CPUs and
+GPUs. The Arrow memory format also supports zero-copy reads for
+lightning-fast data access without serialization overhead.</p>
+</blockquote>
+<p>After reading the description you have probably come to the conclusion that
+Apache Arrow sounds great and that it will give anyone working with data enough
+tools to improve a data processing workflow.  But that's the catch, on its own
+Apache Arrow is not an application or library that can be installed and used.
+The objective of Apache Arrow is to define a set of specifications that need to
+be followed by an implementation in order to allow:</p>
+<ol>
+<li>fast in-memory data access</li>
+<li>sharing and zero copy of data between processes</li>
+</ol>
+<h3><a class="header" href="#fast-in-memory-data-access" id="fast-in-memory-data-access">Fast in-memory data access</a></h3>
+<p>Apache Arrow allows fast memory access by defining its <a href="https://arrow.apache.org/overview/">in-memory columnar
+format</a>. This columnar format defines a
+standard and efficient in-memory representation of various datatypes, plain or
+nested
+(<a href="https://github.com/apache/arrow/blob/master/docs/source/format/Columnar.rst">reference</a>).</p>
+<p>In other words, the Apache Arrow project has created a series of rules or
+specifications to define how a datatype (int, float, string, list, etc.) is
+stored in memory. Since the objective of the project is to store large amounts
+of data in memory for further manipulation or querying, it uses a columnar data
+definition. This means that when a dataset (data defined with several columns)
+is stored in memory, it no longer maintains its rows representation but it is
+changed to a columnar representation.</p>
+<p>For example, lets say we have a dataset that is defined with three columns
+named: <em>session_id</em>, <em>timestamp</em> and <em>source_id</em> (image below). Traditionally,
+this file should be represented in memory maintaining its row representation
+(image below, left). This means that the fields representing a row would be kept
+next to each other. This makes memory management harder to achieve because there
+are different datatypes next to each other; in this case a long, a date and a
+string. Each of these datatypes will have different memory requirements (for
+example, 8 bytes, 16 bytes or 32 bytes).</p>
+<p><img src="images/simd.png" alt="Columnar" /></p>
+<p>By changing the in memory representation of the file to a columnar form (image
+above, right), the in-memory arrangement of the data becomes more efficient.
+Similar datatypes are stored next to each other, making the access and columnar
+querying faster to perform.</p>
+<h3><a class="header" href="#sharing-data-between-processes" id="sharing-data-between-processes">Sharing data between processes</a></h3>
+<p>Imagine a typical workflow for a data engineer. There is a process that is
+producing data that belongs to a service monitoring the performance of a sales
+page.  This data has to be read, processed and stored. Probably the engineer
+would first set a script that is reading the data and storing the result in a
+CSV or Parquet file. Then the engineer would need to create a pipeline to read
+the file and transfer the data to a database. Once the data is stored some
+analysis is needed to be done on the data, maybe Pandas is used to read the data
+and extract information. Or, perhaps Spark is used to create a pipeline that
+reads the database in order to create a stream of data to feed a dashboard. The
+copy and convert process may end up looking like this:</p>
+<p><img src="images/copy.png" alt="Copy" /></p>
+<p>As it can be seen, the data is copied and converted several times. This happens
+every time a process needs to query the data. </p>
+<p>By using a standard that all languages and processes can understand, the data
+doesn't need to be copied and converted. There can be a single in-memory data
+representation that can be used to feed all the required processes. The data
+sharing can be done regarding the language that is used.</p>
+<p><img src="images/shared.png" alt="Shared" /></p>
+<p>And thanks to this standardization the data can also be shared with processes
+that don't share the same memory. By creating a data server, packets of data
+with known structure (RecordBatch) can be sent across computers (or pods) and
+the receiving process doesn't need to spend time coding and decoding the data
+to a known format. The data is ready to be used once its being received.</p>
+<p><img src="images/recordbatch.png" alt="Shared" /></p>
+<h2><a class="header" href="#the-rust-arrow-crate" id="the-rust-arrow-crate">The Rust Arrow crate</a></h2>
+<p>These and other collateral benefits can only be achieved thanks to the work done
+by the people collaborating in the Apache Arrow project. By looking at the
+project <a href="https://github.com/apache/arrow">github page</a>, there are libraries for
+the most common languages used today, and that includes Rust.</p>
+<p>The Rust Arrow crate is a collection of structs and implementations that define
+all the elements required to create Arrow arrays that follow the Apache Arrow
+specification. In the next sections the basic blocks for working with the
+crate will be discussed, providing enough examples to give you familiarity
+to construct, share and query Arrow arrays.</p>
+<h1><a class="header" href="#arrays" id="arrays">Arrays</a></h1>
+<p>The Array is the center piece of the Rust Apache Arrow implementation. An array
+is defined by different pieces of data and metadata, as it can be seen in the
+next image.</p>
+<p><img src="images/layout.png" alt="Layout" /></p>
+<p>From the image it can be seen that an Array is composed of one or more buffers,
+a validity bitmap and a datatype definition. By using an Arrow Array, you can
+map complex or nested data structures into memory, and with the data ordered
+and loaded you can shared it across several processes using a RecordBatch. </p>
+<p>In Rust, the Array trait is the building block for all the available types of 
+data containers. These include:</p>
+<ul>
+<li>BinaryArray</li>
+<li>DictionaryArray</li>
+<li>FixedSizeBinaryArray</li>
+<li>FixedSizeListArray</li>
+<li>LargeBinaryArray</li>
+<li>LargeListArray</li>
+<li>LargeStringArray</li>
+<li>ListArray</li>
+<li>PrimitiveArray</li>
+<li>StringArray</li>
+<li>StructArray</li>
+<li>NullArray</li>
+<li>UnionArray</li>
+</ul>
+<p>Each of these containers follow a set of rules in order to define some sort of
+behaviour. For example, a PrimitiveArray is made out of elements of the same
+datatype and it contains one data buffer and one validity buffer. Or a
+StructArray is a nested Array containing child fields that represent separate
+PrimitiveArrays. By using a combination of these arrays the user
+is capable of storing a variety of data in memory. </p>
+<blockquote>
+<p><strong>Tip</strong>. To have a better idea of the components that make each of the
+mentioned arrays and how they work together have a look at this
+<a href="https://github.com/apache/arrow/blob/master/docs/source/format/Columnar.rst#physical-memory-layout">section</a>
+of the columnar format. </p>
+</blockquote>
+<p>Given the different components that define an array, it is important to
+understand the basic unit that allocates the required memory used to hold data;
+the buffer.</p>
+<h1><a class="header" href="#the-arrow-buffer" id="the-arrow-buffer">The Arrow Buffer</a></h1>
+<p>The <a href="https://docs.rs/arrow/2.0.0/arrow/buffer/struct.Buffer.html">Buffer</a> is the
+main data container in the Arrow Array. Depending on the type of array that is
+being created, it can have one or many buffers holding information. So, this
+means that an array could include a combination of a values buffer, a validity
+bitmap buffer and an offset buffer.</p>
+<p>However, all buffers are the same. A buffer is the representation of a
+continuous memory region that is used to store data in memory. According to the
+Arrow specification a buffer should be aligned and padded using multiples of 8
+or 64 bytes.</p>
+<p>To see how a buffer looks in Rust lets create one.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+
+fn main() {
+    let buffer_u8 = Buffer::from(&amp;[0u8, 1, 2, 3, 4, 5]);
+    println!(&quot;{:?}&quot;, buffer_u8);
+}
+</code></pre></pre>
+<blockquote>
+<p><strong>Note</strong>. Don't use the &quot;Run this code&quot; button. The Arrow crate is not loaded
+in the book and it will produce an error</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip</strong>. If you use <strong>&quot;{:#?}&quot;</strong> in the println! macro you should see a
+formated version of the struct in your screen</p>
+</blockquote>
+<p>If you printed the previous code you should see something like this:</p>
+<pre><code class="language-json">Buffer { 
+    data: Bytes { 
+        ptr: 0x1dcab5b5400, 
+        len: 6,
+        data: [0, 1, 2, 3, 4, 5] 
+    }, 
+    offset: 0 
+}
+</code></pre>
+<p>As it can be seen, a buffer is made out of a Bytes structure and an offset. The
+Bytes structure is used to represent the data in memory by using a pointer, the
+number of elements it has, and the data itself. The offset is used by the arrays
+to indicate an offset for reading the stored values. By creating a buffer the
+constructor has allocated in memory enough bytes to store the supplied values
+and it has given a pointer to access the stored data. It should also be noted
+that the resulting buffer is inmutable.</p>
+<p>The normal usage of the Arrays don't require you to use pointer arithmetic to
+access the data in the buffer, but as a learning experience lets use the pointer
+to access the data in memory.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+
+fn main() {
+    let buffer_u8 = Buffer::from(&amp;[0u8, 1, 2, 3, 4, 5]);
+    
+    unsafe {
+        for i in 0..5 {
+            println!(&quot;{}&quot;, *buffer_u8.as_ptr().add(i));
+        }
+    }
+}
+</code></pre></pre>
+<p>If you are following the examples, you should see printed the values 0 to 5 in
+you screen. </p>
+<p>Now lets change the type of elements the buffer is holding to u32 and see what
+happens to the buffer.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::datatypes::ToByteSlice;
+
+fn main() {
+    let buffer_u32 = Buffer::from(&amp;[0u32, 1, 2, 3, 4, 5].to_byte_slice());
+    
+    println!(&quot;{:?}&quot;, buffer_u32);
+}
+</code></pre></pre>
+<p>In this case a new element is introduced to the code; the <strong>ToByteSlice</strong> trait.
+The ToByteSlice trait exposes the method to_byte_slice for <em>[T]</em> and <em>T</em> which
+allows us to allocate the required memory using u8 as the base unit. This means
+that now each <em>u32</em> number will be represented by four <em>u8</em> numbers. That can be
+seen better by printing the new buffer:</p>
+<pre><code class="language-json">Buffer { 
+    data: Bytes { 
+        ptr: 0x1ad7d5ffb00,
+        len: 24,
+        data: [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0, 5, 0, 0, 0] 
+    },
+    offset: 0
+}
+</code></pre>
+<p>Now the length of the buffer is 24, even though we stored only 6 digits, and
+there are extra zeros in the data array. What happened is that each of the u32
+numbers is represented using multiples of u8 numbers. Now each number in the
+array is padded and aligned. Neat isn't it?. </p>
+<blockquote>
+<p><strong>Tip</strong>. Try increasing the number of values used to create the buffer to see
+what happens to the len. Also, try using numbers larger than 255 to see
+how the number representation changes in the data array.</p>
+</blockquote>
+<p>Again, as a learning experience, you can use the raw pointer to access all the
+elements from the buffer. However, since the buffer pointer is a <code>*const u8</code>
+you need to cast it to a <code>*const u32</code>.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::datatypes::ToByteSlice;
+
+fn main() {
+    let buffer_u32 = Buffer::from(&amp;[0u32, 1, 2, 3, 4, 5].to_byte_slice());
+    
+    let ptr_32 = buffer_u32.as_ptr() as *const u32;
+    unsafe {
+        for i in 0..6 {
+            println!(&quot;{}&quot;, *ptr_32.add(i));
+        }
+    }
+}
+</code></pre></pre>
+<p>With your newly earned understanding of how a buffers works, lets start creating
+Arrow arrays.</p>
+<h1><a class="header" href="#the-array-data" id="the-array-data">The Array Data</a></h1>
+<p>As we discussed before, an Arrow array is made out of several components and
+the way these elements are stored will define the type of array that is being
+created. In the Rust Arrow crate the
+<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.ArrayData.html">ArrayData</a>
+struct is the generic representation of the data stored in memory. All types of
+arrays are made or represented using an atomic reference to an ArrayData. </p>
+<p>Let us understand how this struct represents an Arrow array by creating one by
+using the ArrayData::new implementation.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::array::ArrayData;
+use arrow::datatypes::DataType;
+
+fn main() {
+    let buffer_u8 = Buffer::from(&amp;[0u8, 1, 2, 3, 4, 5]);
+    let data = ArrayData::new(DataType::Int8, 6, None, None, 0, vec![buffer_u8], vec![]);
+
+    println!(&quot;{:?}&quot;, data);
+}
+</code></pre></pre>
+<p>If you print the previous code you should see the next output</p>
+<pre><code class="language-json">ArrayData { 
+    data_type: Int8,
+    len: 6,
+    null_count: 0,
+    offset: 0, 
+    buffers: [
+        Buffer { 
+            data: Bytes { 
+                ptr: 0x20300849b00,
+                len: 6, 
+                data: [0, 1, 2, 3, 4, 5]
+            },
+            offset: 0
+        }
+    ],
+    child_data: [],
+    null_bitmap: None }
+</code></pre>
+<p>As you can see, to create the data (ArrayData::new) it was required to input the
+datatype to be stored, the number of elements in the array, a validity null
+buffer, an offset, a vector of buffers and child data. Each of these values is
+used to define attributes and operations in the arrays. </p>
+<p>Lets begin with the type of data. Each Arrow Array can store different
+datatypes in memory as mentioned before. The available datatypes are defined
+using the enum
+<a href="https://docs.rs/arrow/2.0.0/arrow/datatypes/enum.DataType.html">DataType</a> and
+it follows the Arrow specification on datatypes (see
+<a href="https://github.com/apache/arrow/blob/master/format/Schema.fbs">Scehma.fbs</a>).
+The selection of the datatype is very important because, as we saw in the
+buffer chapter, the implementation needs to know what type of pointer to use
+in order to access the vales stored in memory. </p>
+<p>The next element is the length of values stored in the data. This value
+indicates how many of the values available in the buffer will be considered in
+the array.</p>
+<blockquote>
+<p><strong>Note</strong>. Remember that the buffer doesn't store the values using their
+original datatype, instead it uses u8 types</p>
+</blockquote>
+<p>Therefore, the data array &quot;needs&quot; to know how many of the values from the
+buffer it has to read. The offset has a similar use; it indicates the array
+offset to start reading the data.</p>
+<blockquote>
+<p><strong>Tip</strong>. Change the len and offset values from the constructor from the
+previous example to see what happens to the data array.</p>
+</blockquote>
+<p>The null bitmap and null count are used to indicate if there are null values
+stored in the array and what their positions are. Have a read at this
+<a href="https://github.com/apache/arrow/blob/master/docs/source/format/Columnar.rst#null-count">section</a>
+of the Apache columnar format to understand how a null value is represented and
+stored in the data array.</p>
+<p>Also, during the construction of the data array we introduce an vector of
+buffers to the constructor.  As we mentioned before some arrays required more
+than one buffer to represent the data.  For example, an array of strings
+requires a data buffer and an offset buffer (We'll see an example later).</p>
+<p>The child data is used for nested arrays, such as a list array or a struct
+array.  Each of them represent data collections that are composed of one or
+more primitive arrays.</p>
+<h1><a class="header" href="#primitive-arrays" id="primitive-arrays">Primitive arrays</a></h1>
+<p>A primitive array
+(<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>)
+is a type of array used to store a list of elements of the same type. It
+includes fixed bit-width, variable-size, binary and null arrays.</p>
+<p>Lets begin with an example of a primitive array and how the data looks like
+when printed.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::array::{ArrayData, PrimitiveArray};
+use arrow::datatypes::{DataType, Int32Type, ToByteSlice};
+
+use std::sync::Arc;
+
+fn main() {
+    let buffer = Buffer::from(&amp;[0u32, 1, 2, 3, 4, 5].to_byte_slice());
+    let data = ArrayData::new(DataType::Int32, 6, None, None, 0, vec![buffer], vec![]);
+
+    let array: PrimitiveArray&lt;Int32Type&gt; = PrimitiveArray::&lt;Int32Type&gt;::from(Arc::new(data));
+    println!(&quot;{:?}&quot;, array);
+}
+</code></pre></pre>
+<p>This time you should see in your console output something like this</p>
+<pre><code class="language-json">PrimitiveArray&lt;Int32&gt;
+    [ 0,
+      1,
+      2,
+      3,
+      4,
+      5,
+    ]
+</code></pre>
+<p>It seems that this time the primitive array knows how to represent the data
+that is stored in the buffer using the correct datatype. When we print the
+array we no longer see zeros padding the data (easier for us humans to
+understand, isn't it).</p>
+<p>You may have noticed that we used the <strong>From</strong> trait in order to create the
+array from the ArrayData. Lucky for us, in the Arrow crate there are several
+ways to create arrays. </p>
+<h2><a class="header" href="#the-array-builders" id="the-array-builders">The array builders</a></h2>
+<p>Lets make our life simpler by using the constructors defined within the crate.
+This constructors will do all the job of defining the buffers, data arrays and
+datatypes. They will even help us define the validity buffer used to mark the
+presence of null values.</p>
+<p>For this example we will use an Int32Builder which is a type definition created
+from
+<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveBuilder.html">PrimitiveBuilder</a></p>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::Int32Builder;
+
+fn main() {
+    let mut primitive_array_builder = Int32Builder::new(20);
+
+    primitive_array_builder.append_value(5).unwrap();
+    primitive_array_builder.append_value(10000).unwrap();
+    primitive_array_builder.append_value(2000000).unwrap();
+    primitive_array_builder.append_null().unwrap();
+    primitive_array_builder.append_slice(&amp;[1, 2, 3]).unwrap();
+    primitive_array_builder.append_null().unwrap();
+    primitive_array_builder
+        .append_slice(&amp;(0..10).collect::&lt;Vec&lt;i32&gt;&gt;())
+        .unwrap();
+
+    let primitive_array = primitive_array_builder.finish();
+    println!(&quot;{:?}&quot;, primitive_array);
+
+}
+</code></pre></pre>
+<p>As you can see, now the array was created in a more organic way. We didn't
+need to define all the elements that compose the array. This builder will let
+us add as many values as we need (thanks to the
+<a href="https://docs.rs/arrow/2.0.0/arrow/buffer/struct.MutableBuffer.html">MutableBuffer</a>
+that is used by the constructor). We can add values, slices and nulls in one
+go. When there are no more values to add, the builder will create a primitive
+array that represents all the data stored within the data buffer. </p>
+<p>It should be mentioned that once the builder finishes the array, it will clear
+its memory and the builder can be used again to create another primitive array.</p>
+<blockquote>
+<p><strong>Note</strong>. The Arrow create also has
+<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.BufferBuilder.html">BufferBuilders</a>
+that behave like the array builders. They can be used to create buffers in a
+dynamic way by adding values as needed. The finish buffer can be used to
+create arrays of different types.</p>
+</blockquote>
+<h1><a class="header" href="#using-traits" id="using-traits">Using traits</a></h1>
+<p>We can also create arrays by using vectors of elements. This is thanks to the
+<strong>From</strong> trait implemented in the crate.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::{PrimitiveArray, Int32Array};
+use arrow::datatypes::{Date64Type, Time64MicrosecondType};
+
+fn main() {
+    // Creating an array from a vector of options
+    let array = Int32Array::from(vec![Some(0), None, Some(2), None, Some(4)]);
+    println!(&quot;{:?}&quot;, array);
+
+    // Creating an array from a vector of Date64Types using the into method
+    let date_array: PrimitiveArray&lt;Date64Type&gt; =
+        vec![Some(1550902545147), None, Some(1550902545147)].into();
+    println!(&quot;{:?}&quot;, date_array);
+
+    // Creating an array from a vector of Date64Types using the from method
+    let date_array: PrimitiveArray&lt;Date64Type&gt; = 
+        PrimitiveArray::&lt;Date64Type&gt;::from(vec![Some(1550902545147), None, Some(1550902545147)]);
+    println!(&quot;{:?}&quot;, date_array);
+
+    let time_array: PrimitiveArray&lt;Time64MicrosecondType&gt; = 
+        (0..100).collect::&lt;Vec&lt;i64&gt;&gt;().into();
+    println!(&quot;{:?}&quot;, time_array);
+}
+</code></pre></pre>
+<p>As you can see from these examples, it is relatively easy to create primitive
+arrays to store data in memory. The create has a variety of methods to store
+data in memory that follows the Arrow specification; all data is padded and
+aligned. </p>
+<p>Also, since all the arrays store an atomic reference to the buffers, it can be
+shared between processes without copying the data. However, before we venture
+into data sharing is important to see what operations are defined for the arrays
+and also review the available nested structures and how they can be created
+using primitive arrays.</p>
+<h1><a class="header" href="#array-operations" id="array-operations">Array operations</a></h1>
+<p>The arrow crate defines several operations that can be performed on arrays.
+These include comparisons, aggregations, arithmetic operations, concatenations,
+and more.</p>
+<p>In this chapter we will see some of the most common operations that can be
+performed on arrays.</p>
+<p>comparisons</p>
+<p>aggregations</p>
+<p>arithmetic operations</p>
+<p>concatenations</p>
+<h1><a class="header" href="#nested-arrays" id="nested-arrays">Nested arrays</a></h1>
+<p>A primitive array is a useful struct to store values that have the same
+datatype. However, if we only use primitive arrays it will be impossible to
+represent complex data structures like datasets.  For this reason nested arrays
+were introduced to the Apache Arrow specification, and in the Rust
+implementation we have variable size lists, fixed size lists and structs.</p>
+<h2><a class="header" href="#variable-size-lists" id="variable-size-lists">Variable size lists</a></h2>
+<p>A variable size list is used to represent arrays that are made of variable size
+lists. In Rust we have the next containers to create variable size lists:</p>
+<ul>
+<li>ListArray</li>
+<li>StringArray</li>
+<li>BinaryArray</li>
+<li>LargeListArray</li>
+<li>LargeStringArray</li>
+<li>LargeBinaryArray</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong>. The difference between the Large and Normal arrays is the type of
+datatype offset used to align the space between elemets. In the normal
+arrays the offset is represented using  a i32 and in the large list a i64 is
+used.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip</strong>. For more details on how a variable size list is defined and created, it is
+recommended that you read this
+<a href="https://github.com/apache/arrow/blob/master/docs/source/format/Columnar.rst#variable-size-list-layout">section</a>
+of the Arrow columnar format. </p>
+</blockquote>
+<h3><a class="header" href="#listarray" id="listarray">ListArray</a></h3>
+<p>Lets continue this section by creating a
+<a href="https://docs.rs/arrow/2.0.0/arrow/array/type.ListArray.html">ListArray</a> to
+show you how to create a variable size list and how it is represented in
+memory.  For reference, we will use the next image to explain how a ListArray
+is created and what is happening behind the scene.</p>
+<p><img src="images/list.png" alt="Lists" /></p>
+<p>In this example we are going to create a list that is made of three elements.
+Each of these elements will me composed of one or more lists. For example,
+element <strong>1</strong> will have 2 lists; element <strong>2</strong> will have 2 lists and 1 null;
+and element <strong>3</strong> will have one list.</p>
+<p>In general we can say that a nested array is made of a master data array and a
+series of child data arrays. In the previous image the master array (<strong>a</strong>)
+defines the general structure of the array, which in this case it has 3
+elements, no nulls and has an offset buffer. The <a href="https://github.com/apache/arrow/blob/master/docs/source/format/Columnar.rst#variable-size-binary-layout">offset
+buffer</a>
+is used to calculate how many numbers or elements each of the inner lists have. </p>
+<p>After the master data array comes the child array (<strong>b</strong>). The child array is
+used to define the next nested level in the lists. In this case, the child
+array has 6 elements, one null, and offset buffer and a values buffer. By using
+this data representation one can nest as many lists as required. You only need
+to define a next child and attach it to the ListArray. </p>
+<p>With this description in mind, lets create the list array from the image with
+the next code:</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::array::{ArrayData, ListArray};
+use arrow::datatypes::{DataType, Field, ToByteSlice};
+
+fn main() {
+    // First we create an ArrayData struct that will hold the values
+    // from the array. These values are stored in one buffer aligned and padded.
+    let value_data = ArrayData::builder(DataType::Int32)
+        .len(10)
+        .add_buffer(Buffer::from(&amp;[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].to_byte_slice()))
+        .build();
+
+    // Second we define the offsets what will define the lists from the
+    // child data(b)
+    let value_offsets = Buffer::from(&amp;[0, 2, 4, 7, 7, 8, 10].to_byte_slice());
+
+    // With the values and offset we can define the child data(b). The child
+    // data represents the second level in the array. Notice the type for
+    // the data array. It is made using the enum DataType::List indicating
+    // that its a composite array
+    let list_data_type = DataType::List(Box::new(Field::new(&quot;item&quot;, DataType::Int32, false)));
+    let list_data = ArrayData::builder(list_data_type)
+        .len(6)
+        .add_buffer(value_offsets)
+        .add_child_data(value_data)
+        .null_bit_buffer(Buffer::from([0b00110111]))
+        .build();
+    
+    // The last element is the master data array. This master data
+    // array holds all the information required to define the ListArray
+    let value_offsets = Buffer::from(&amp;[0, 2, 5, 6].to_byte_slice());
+    let list_data_type = DataType::List(Box::new(Field::new(&quot;item&quot;, DataType::Int32, false)));
+    let list_data = ArrayData::builder(list_data_type)
+        .len(3)
+        .add_buffer(value_offsets)
+        .add_child_data(list_data)
+        .build();
+
+    // If you print the list_data you will only see the combination of 
+    // buffers that compose the data array
+    println!(&quot;{:?}&quot;, list_data);
+
+    // We need to define a ListArray to be able to understand the composed
+    // data that is inside the ListArray
+    let list_array = ListArray::from(list_data);
+    println!(&quot;{:?}&quot;, list_array);
+}
+</code></pre></pre>
+<p>If you print the previous code you should see something like this (the output
+was formated for this book):</p>
+<pre><code class="language-json">ListArray [
+    ListArray [
+        PrimitiveArray&lt;Int32&gt; [ 1, 2, ],
+        PrimitiveArray&lt;Int32&gt; [ 3, 4, ],
+    ],
+    ListArray [
+        PrimitiveArray&lt;Int32&gt; [ 5, 6, 7, ],
+        null,
+        PrimitiveArray&lt;Int32&gt; [ 8, ],
+    ],
+    ListArray [
+        PrimitiveArray&lt;Int32&gt; [ 9, 10, ],
+    ],
+]
+</code></pre>
+<p>As you can see, the resulting array is identical to the one described in the
+previous image. Notice that by printing the ListArray we are able to see the
+real representation of the struct and not the buffers (values represented using
+u8).  Behind the scenes the ListArray is doing the steps <strong>(c)</strong> and <strong>(d)</strong>
+from the image, which create the nested lists and show that data in the correct
+format and structure. </p>
+<p>A ListArray is very flexible and by following this procedure is possible to
+create any type of nested lists.</p>
+<h3><a class="header" href="#stringarray" id="stringarray">StringArray</a></h3>
+<p>A <a href="https://docs.rs/arrow/2.0.0/arrow/array/type.StringArray.html">StringArray</a>
+follows the same idea as a ListArray, the only difference is that the values
+buffer is made of <strong>u8</strong>s that represents the letters or characters.</p>
+<p>As an example lets create an StringArray that holds the next list:</p>
+<pre><code class="language-json">array = [&quot;Hello&quot;, &quot;from&quot;, null, &quot;Apache&quot;, &quot;Arrow&quot;]
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::array::{ArrayData, StringArray};
+use arrow::datatypes::{DataType, ToByteSlice};
+
+fn main() {
+    // First we define the values that will represent the letters 
+    // from the array
+    let values: [u8; 20] = [
+        b'h', b'e', b'l', b'l', b'o', b'f', b'r', b'o', b'm', 
+        b'A', b'p', b'a', b'c', b'h', b'e', b'A', b'r', b'r', b'o', b'w', 
+    ];
+
+    // And the offset that represents how many characters are in each word
+    let offsets: [i32; 6] = [0, 5, 9, 9, 15, 20];
+
+    // By the way, notice the order each buffer is added to the ArrayData.
+    // Each buffer is stored in a vector of buffers, so the only reference 
+    // other constructors will have is the vector index.
+    let array_data = ArrayData::builder(DataType::Utf8)
+        .len(5)
+        .add_buffer(Buffer::from(offsets.to_byte_slice()))
+        .add_buffer(Buffer::from(&amp;values[..]))
+        .null_bit_buffer(Buffer::from([0b00011011]))
+        .build();
+    let binary_array = StringArray::from(array_data);
+
+    println!(&quot;{:?}&quot;, binary_array);
+}
+</code></pre></pre>
+<p>Your output should look similar to this:</p>
+<pre><code class="language-json">StringArray
+    [ &quot;hello&quot;, &quot;from&quot;, null, &quot;Apache&quot;, &quot;Arrow&quot;, ]
+</code></pre>
+<p>As you can see, we can store as many words as we want by using a values buffer
+and an offset buffer.</p>
+<blockquote>
+<p><strong>Tip</strong>. From your code remove the null_bit_buffer method from the
+constructor and see how the empty space is now represented.</p>
+</blockquote>
+<h2><a class="header" href="#struct-array" id="struct-array">Struct Array</a></h2>
+<p><a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.StructArray.html">StructArrays</a>
+are used to represent mixed data, each being identified by a name and a
+datatype.  As an example we have this array:</p>
+<pre><code class="language-json">array = {
+    &quot;a&quot;: [false, null, null, null, true],
+    &quot;b&quot;: [null, 28, 42, null, null],
+    &quot;c&quot;: [1, 2, 3, 4, 5]
+}
+</code></pre>
+<p>As it can be seen, each element in the array is represented by a tuple made of
+a name and an array of values. To construct an struct you will need to define
+the data that represents each of the fields. In the next node we will construct
+the previous array using the ArrayData builders we have been using.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
+use arrow::array::{ArrayData, StructArray};
+use arrow::datatypes::{DataType, Field, ToByteSlice};
+
+fn main() {
+    // First we create all the base data that represents each of the elements
+    // in the struct
+    let boolean_data = ArrayData::builder(DataType::Boolean)
+        .len(5)
+        .add_buffer(Buffer::from([0b00010000]))
+        .null_bit_buffer(Buffer::from([0b00010001]))
+        .build();
+
+    let int_data_b = ArrayData::builder(DataType::Int32)
+        .len(5)
+        .add_buffer(Buffer::from([0, 28, 42, 0, 0].to_byte_slice()))
+        .null_bit_buffer(Buffer::from([0b00000110]))
+        .build();
+
+    let int_data_c = ArrayData::builder(DataType::Int32)
+        .len(5)
+        .add_buffer(Buffer::from([1, 2, 3, 4, 5].to_byte_slice()))
+        .null_bit_buffer(Buffer::from([0b00011111]))
+        .build();
+
+    // The field types are used to indicate the type of data that each element
+    // in the structarray has
+    let mut field_types = vec![];
+    field_types.push(Field::new(&quot;a&quot;, DataType::Boolean, false));
+    field_types.push(Field::new(&quot;b&quot;, DataType::Int32, false));
+    field_types.push(Field::new(&quot;c&quot;, DataType::Int32, false));
+
+    let struct_array_data = ArrayData::builder(DataType::Struct(field_types))
+        .len(5)
+        .add_child_data(boolean_data.clone())
+        .add_child_data(int_data_b.clone())
+        .add_child_data(int_data_c.clone())
+        .build();
+
+    let struct_array = StructArray::from(struct_array_data);
+
+    println!(&quot;{:?}&quot;, struct_array);
+}
+</code></pre></pre>
+<p>The output from the code should look like this:</p>
+<pre><code class="language-json">StructArray [
+    -- child 0: &quot;a&quot; (Boolean)
+    PrimitiveArray&lt;Boolean&gt; [ false, null, null, null, true, ]
+    -- child 1: &quot;b&quot; (Int32)
+    PrimitiveArray&lt;Int32&gt; [ null, 28, 42, null, null, ]
+    -- child 2: &quot;c&quot; (Int32)
+    PrimitiveArray&lt;Int32&gt; [ 1, 2, 3, 4, 5, ]
+]
+</code></pre>
+<p>StructArrays can also be constructed using the StructArray::from helper, which
+takes the underlying arrays and field types. In the next example we will
+construct this struct using the From trait.</p>
+<pre><code class="language-json">array = {
+    &quot;b&quot;: [false, false, true, true],
+    &quot;c&quot;: [42, 28, 19, 31]
+}
+</code></pre>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::{Array, BooleanArray, Int32Array, StructArray};
+use arrow::datatypes::{DataType, Field};
+
+use std::sync::Arc;
+
+fn main() {
+    let struct_array = StructArray::from(vec![
+        (
+            Field::new(&quot;b&quot;, DataType::Boolean, false),
+            Arc::new(BooleanArray::from(vec![false, false, true, true])) as Arc&lt;dyn Array&gt;,
+        ),
+        (
+            Field::new(&quot;c&quot;, DataType::Int32, false),
+            Arc::new(Int32Array::from(vec![42, 28, 19, 31])),
+        ),
+    ]);
+
+    println!(&quot;{:?}&quot;, struct_array);
+}
+</code></pre></pre>
+<p>The output should look like this:</p>
+<pre><code class="language-json">StructArray [
+    -- child 0: &quot;b&quot; (Boolean)
+    PrimitiveArray&lt;Boolean&gt; [ false, false, true, true, ]
+    -- child 1: &quot;c&quot; (Int32)
+    PrimitiveArray&lt;Int32&gt; [ 42, 28, 19, 31, ]
+]
+</code></pre>
+<p>So, from these examples you can see that a struct is the perfect candidate to
+represent in memory a dataframe. These dataframes can be shared, without
+copying the data, among processes in order to read and process the data. You
+could read a file and create a StructArray, and then pass a reference of such
+array to another process for further analysis. And since all data is following
+a columnar format, the dataframe is stored in memory in a very efficient way.</p>
+<p>In the next chapter we are going to talk about the RecordBatch and how it can 
+be used to share data between processes.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
+        
+
+    </body>
+</html>
