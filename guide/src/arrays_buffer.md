@@ -1,6 +1,6 @@
 # The Arrow Buffer
 
-The [Buffer](https://docs.rs/arrow/2.0.0/arrow/buffer/struct.Buffer.html) is the
+The [Buffer](https://docs.rs/arrow/3.0.0/arrow/buffer/struct.Buffer.html) is the
 main data container in the Arrow Array. Depending on the type of array that is
 being created, it can have one or many buffers holding information. So, this
 means that an array could include a combination of a values buffer, a validity

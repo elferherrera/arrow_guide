@@ -1,5 +1,6 @@
 use arrow::array::{
-    Array, ArrayData, BooleanArray, Int32Array, ListArray, StringArray, StructArray,
+    Array, ArrayData, BooleanArray, Int32Array, Int32Builder, ListArray, ListBuilder, StringArray,
+    StringBuilder, StructArray,
 };
 use arrow::buffer::Buffer;
 use arrow::datatypes::{DataType, Field, ToByteSlice};
@@ -37,6 +38,26 @@ fn main() {
     let list_array = ListArray::from(list_data);
     println!("{:?}", list_array);
 
+    // List array with builder
+    let values_builder = Int32Builder::new(10);
+    let mut builder = ListBuilder::new(values_builder);
+
+    //  [[0, 1, 2], [3, 4, 5], [6, 7]]
+    builder.values().append_value(0).unwrap();
+    builder.values().append_value(1).unwrap();
+    builder.values().append_value(2).unwrap();
+    builder.append(true).unwrap();
+    builder.values().append_value(3).unwrap();
+    builder.values().append_value(4).unwrap();
+    builder.values().append_value(5).unwrap();
+    builder.append(true).unwrap();
+    builder.values().append_value(6).unwrap();
+    builder.values().append_value(7).unwrap();
+    builder.append(true).unwrap();
+    let list_array = builder.finish();
+
+    println!("{:?}", list_array);
+
     // StringArray
     let values: [u8; 20] = [
         b'h', b'e', b'l', b'l', b'o', b'f', b'r', b'o', b'm', b'A', b'p', b'a', b'c', b'h', b'e',
@@ -50,8 +71,22 @@ fn main() {
         .add_buffer(Buffer::from(&values[..]))
         .null_bit_buffer(Buffer::from([0b00011011]))
         .build();
-    let binary_array = StringArray::from(array_data);
-    println!("{:?}", binary_array);
+    let string_array = StringArray::from(array_data);
+    println!("{:?}", string_array);
+    println!("Value: {:?}", string_array.value(0));
+    println!("Value: {:?}", string_array.value(1));
+    println!("Value: {:?}", string_array.value(2));
+
+    println!("\nCreating an String Array using builder");
+    let mut builder = StringBuilder::new(10);
+    builder.append_value("one").unwrap();
+    builder.append_value("two").unwrap();
+    builder.append_value("three").unwrap();
+    builder.append_null().unwrap();
+    builder.append_value("four").unwrap();
+
+    let string_array = builder.finish();
+    println!("{:?}", string_array);
 
     // StructArray ArrayData
     let boolean_data = ArrayData::builder(DataType::Boolean)

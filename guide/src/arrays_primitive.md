@@ -1,7 +1,7 @@
-# Primitive arrays
+# Primitive Arrays
 
 A primitive array
-([PrimitiveArray](https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveArray.html))
+([PrimitiveArray](https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveArray.html))
 is a type of array used to store a list of elements of the same type. It
 includes fixed bit-width, variable-size, binary and null arrays.
 
@@ -55,7 +55,7 @@ presence of null values.
 
 For this example we will use an Int32Builder which is a type definition created
 from
-[PrimitiveBuilder](https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveBuilder.html)
+[PrimitiveBuilder](https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveBuilder.html)
 
 ```rust
 use arrow::array::Int32Builder;
@@ -82,7 +82,7 @@ fn main() {
 As you can see, now the array was created in a more organic way. We didn't
 need to define all the elements that compose the array. This builder will let
 us add as many values as we need (thanks to the
-[MutableBuffer](https://docs.rs/arrow/2.0.0/arrow/buffer/struct.MutableBuffer.html)
+[MutableBuffer](https://docs.rs/arrow/3.0.0/arrow/buffer/struct.MutableBuffer.html)
 that is used by the constructor). We can add values, slices and nulls in one
 go. When there are no more values to add, the builder will create a primitive
 array that represents all the data stored within the data buffer. 
@@ -91,12 +91,12 @@ It should be mentioned that once the builder finishes the array, it will clear
 its memory and the builder can be used again to create another primitive array.
 
 > **Note**. The Arrow create also has
-> [BufferBuilders](https://docs.rs/arrow/2.0.0/arrow/array/struct.BufferBuilder.html)
+> [BufferBuilders](https://docs.rs/arrow/3.0.0/arrow/array/struct.BufferBuilder.html)
 > that behave like the array builders. They can be used to create buffers in a
 > dynamic way by adding values as needed. The finish buffer can be used to
 > create arrays of different types.
 
-# Using traits
+## Using traits
 
 We can also create arrays by using vectors of elements. This is thanks to the
 **From** trait implemented in the crate.
@@ -131,8 +131,7 @@ arrays to store data in memory. The create has a variety of methods to store
 data in memory that follows the Arrow specification; all data is padded and
 aligned. 
 
-Also, since all the arrays store an atomic reference to the buffers, it can be
+Also, since all the arrays store an atomic reference to the buffers, they can be
 shared between processes without copying the data. However, before we venture
-into data sharing is important to see what operations are defined for the arrays
-and also review the available nested structures and how they can be created
-using primitive arrays.
+into data sharing is important to see how to create nested structures using
+primitive arrays and buffers.

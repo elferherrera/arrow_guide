@@ -4,11 +4,10 @@
 
 - [Arrays](arrays.md)
     - [The buffer](arrays_buffer.md)
-    - [Array Data](arrays_data.md)
-    - [Array String](arrays_string.md)
+    - [Array data](arrays_data.md)
     - [Primitive array](arrays_primitive.md)
-    - [Operations with arrays](arrays_operations.md)
     - [Nested arrays](arrays_nested.md)
+    - [Operations with arrays](arrays_operations.md)
 
 - [Reading files]()
     - [Reading CSV files]()

@@ -3,7 +3,7 @@
 As we discussed before, an Arrow array is made out of several components and
 the way these elements are stored will define the type of array that is being
 created. In the Rust Arrow crate the
-[ArrayData](https://docs.rs/arrow/2.0.0/arrow/array/struct.ArrayData.html)
+[ArrayData](https://docs.rs/arrow/3.0.0/arrow/array/struct.ArrayData.html)
 struct is the generic representation of the data stored in memory. All types of
 arrays are made or represented using an atomic reference to an ArrayData. 
 
@@ -54,7 +54,7 @@ used to define attributes and operations in the arrays.
 Lets begin with the type of data. Each Arrow Array can store different
 datatypes in memory as mentioned before. The available datatypes are defined
 using the enum
-[DataType](https://docs.rs/arrow/2.0.0/arrow/datatypes/enum.DataType.html) and
+[DataType](https://docs.rs/arrow/3.0.0/arrow/datatypes/enum.DataType.html) and
 it follows the Arrow specification on datatypes (see
 [Scehma.fbs](https://github.com/apache/arrow/blob/master/format/Schema.fbs)).
 The selection of the datatype is very important because, as we saw in the

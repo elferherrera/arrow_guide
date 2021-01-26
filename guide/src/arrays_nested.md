@@ -32,7 +32,7 @@ lists. In Rust we have the next containers to create variable size lists:
 ### ListArray
 
 Lets continue this section by creating a
-[ListArray](https://docs.rs/arrow/2.0.0/arrow/array/type.ListArray.html) to
+[ListArray](https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html) to
 show you how to create a variable size list and how it is represented in
 memory.  For reference, we will use the next image to explain how a ListArray
 is created and what is happening behind the scene.
@@ -141,11 +141,53 @@ format and structure.
 A ListArray is very flexible and by following this procedure is possible to
 create any type of nested lists.
 
+#### Using the List builder
+
+In order to make our life easier while creating a List Array we can use the
+[ListBuilder](https://docs.rs/arrow/3.0.0/arrow/array/type.ListBuilder.html)
+and
+[LargeListBuilder](https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListBuilder.html).
+By using these builders we no longer have to keep track of the three buffers
+that compose the List Array. 
+
+The next example shows how a list array can be created by just inserting values
+into it and selecting when a sub list starts and ends.
+
+```rust
+use arrow::array::{Int32Builder, ListBuilder};
+
+fn main() {
+    // List array with builder
+    let values_builder = Int32Builder::new(10);
+    let mut builder = ListBuilder::new(values_builder);
+
+    //  [[0, 1, 2], [3, 4, 5], [6, 7]]
+    builder.values().append_value(0).unwrap();
+    builder.values().append_value(1).unwrap();
+    builder.values().append_value(2).unwrap();
+    builder.append(true).unwrap();
+    builder.values().append_value(3).unwrap();
+    builder.values().append_value(4).unwrap();
+    builder.values().append_value(5).unwrap();
+    builder.append(true).unwrap();
+    builder.values().append_value(6).unwrap();
+    builder.values().append_value(7).unwrap();
+    builder.append(true).unwrap();
+    let list_array = builder.finish();
+
+    println!("{:?}", list_array);
+}
+```
+
 ### StringArray
 
-A [StringArray](https://docs.rs/arrow/2.0.0/arrow/array/type.StringArray.html)
-follows the same idea as a ListArray, the only difference is that the values
-buffer is made of **u8**s that represents the letters or characters.
+An String Array
+([StringArray](https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html)
+and
+[LargeStringArray](https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html))
+is used to represent a list of strings stored using the arrow format. A
+StringArray follows the same idea as a ListArray, the only difference is that
+the values buffer is made of **u8**s that represents the letters or characters.
 
 As an example lets create an StringArray that holds the next list:
 
@@ -178,9 +220,12 @@ fn main() {
         .add_buffer(Buffer::from(&values[..]))
         .null_bit_buffer(Buffer::from([0b00011011]))
         .build();
-    let binary_array = StringArray::from(array_data);
+    let string_array = StringArray::from(array_data);
 
-    println!("{:?}", binary_array);
+    println!("{:?}", string_array);
+    println!("Value: {:?}", string_array.value(0));
+    println!("Value: {:?}", string_array.value(1));
+    println!("Value: {:?}", string_array.value(2));
 }
 ```
 
@@ -191,15 +236,55 @@ StringArray
     [ "hello", "from", null, "Apache", "Arrow", ]
 ```
 
-As you can see, we can store as many words as we want by using a values buffer
-and an offset buffer.
+Notice how when we print the string array the strings are printed as the should
+be and not as the u8 values stored in the buffer. This is thanks to the fact
+that a StringArray "knows" the type of data it holds and thus can represent the
+strings in the correct way. This can also be seen when the value() method is
+used on the string. The returned value is the correct representation of the word
+stored in the array.
 
 > **Tip**. From your code remove the null_bit_buffer method from the
 > constructor and see how the empty space is now represented.
 
+#### Using the String builder
+
+Similar to the List Array, the construction of a String Array can become a bit
+complicated if we do it from scratch. You would have to split and put together
+all the letters from the list and then you would need to create an offset list
+for the words, plus adding the validity buffer. This would take a lot of time
+every time a new string array is required. For this reason, the
+[StringBuilder](https://docs.rs/arrow/3.0.0/arrow/array/type.StringBuilder.html)
+and
+[LargeStringBuilder](https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringBuilder.html)
+where created.
+
+Lets create a new String Array using an String Builder.
+
+```rust
+use arrow::array::StringBuilder;
+
+fn main() {
+    println!("Creating an String Array using builder");
+
+    let mut builder = StringBuilder::new(10);
+    builder.append_value("one").unwrap();
+    builder.append_value("two").unwrap();
+    builder.append_value("three").unwrap();
+    builder.append_null().unwrap();
+    builder.append_value("four").unwrap();
+
+    let string_array = builder.finish();
+    println!("{:?}", string_array);
+}
+```
+
+As you can see, the creation process is more streamlined an it feels more
+natural. The builder will append the string and it will create the required
+buffers automatically.
+
 ## Struct Array
 
-[StructArrays](https://docs.rs/arrow/2.0.0/arrow/array/struct.StructArray.html)
+[StructArrays](https://docs.rs/arrow/3.0.0/arrow/array/struct.StructArray.html)
 are used to represent mixed data, each being identified by a name and a
 datatype.  As an example we have this array:
 
