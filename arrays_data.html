@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Array Data - Apache Arrow [Rust]</title>
+        <title>Array data - Apache Arrow [Rust]</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html" class="active"><strong aria-hidden="true">2.2.</strong> Array Data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.4.</strong> Operations with arrays</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.5.</strong> Nested arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html" class="active"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.5.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,7 +167,7 @@
 <p>As we discussed before, an Arrow array is made out of several components and
 the way these elements are stored will define the type of array that is being
 created. In the Rust Arrow crate the
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.ArrayData.html">ArrayData</a>
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.ArrayData.html">ArrayData</a>
 struct is the generic representation of the data stored in memory. All types of
 arrays are made or represented using an atomic reference to an ArrayData. </p>
 <p>Let us understand how this struct represents an Arrow array by creating one by
@@ -209,7 +209,7 @@ used to define attributes and operations in the arrays. </p>
 <p>Lets begin with the type of data. Each Arrow Array can store different
 datatypes in memory as mentioned before. The available datatypes are defined
 using the enum
-<a href="https://docs.rs/arrow/2.0.0/arrow/datatypes/enum.DataType.html">DataType</a> and
+<a href="https://docs.rs/arrow/3.0.0/arrow/datatypes/enum.DataType.html">DataType</a> and
 it follows the Arrow specification on datatypes (see
 <a href="https://github.com/apache/arrow/blob/master/format/Schema.fbs">Scehma.fbs</a>).
 The selection of the datatype is very important because, as we saw in the

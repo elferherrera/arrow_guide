@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array Data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html" class="active"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.4.</strong> Operations with arrays</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.5.</strong> Nested arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html" class="active"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.5.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,9 +163,9 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#primitive-arrays" id="primitive-arrays">Primitive arrays</a></h1>
+                        <h1><a class="header" href="#primitive-arrays" id="primitive-arrays">Primitive Arrays</a></h1>
 <p>A primitive array
-(<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>)
+(<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>)
 is a type of array used to store a list of elements of the same type. It
 includes fixed bit-width, variable-size, binary and null arrays.</p>
 <p>Lets begin with an example of a primitive array and how the data looks like
@@ -208,7 +208,7 @@ datatypes. They will even help us define the validity buffer used to mark the
 presence of null values.</p>
 <p>For this example we will use an Int32Builder which is a type definition created
 from
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveBuilder.html">PrimitiveBuilder</a></p>
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveBuilder.html">PrimitiveBuilder</a></p>
 <pre><pre class="playground"><code class="language-rust">use arrow::array::Int32Builder;
 
 fn main() {
@@ -232,7 +232,7 @@ fn main() {
 <p>As you can see, now the array was created in a more organic way. We didn't
 need to define all the elements that compose the array. This builder will let
 us add as many values as we need (thanks to the
-<a href="https://docs.rs/arrow/2.0.0/arrow/buffer/struct.MutableBuffer.html">MutableBuffer</a>
+<a href="https://docs.rs/arrow/3.0.0/arrow/buffer/struct.MutableBuffer.html">MutableBuffer</a>
 that is used by the constructor). We can add values, slices and nulls in one
 go. When there are no more values to add, the builder will create a primitive
 array that represents all the data stored within the data buffer. </p>
@@ -240,12 +240,12 @@ array that represents all the data stored within the data buffer. </p>
 its memory and the builder can be used again to create another primitive array.</p>
 <blockquote>
 <p><strong>Note</strong>. The Arrow create also has
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.BufferBuilder.html">BufferBuilders</a>
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.BufferBuilder.html">BufferBuilders</a>
 that behave like the array builders. They can be used to create buffers in a
 dynamic way by adding values as needed. The finish buffer can be used to
 create arrays of different types.</p>
 </blockquote>
-<h1><a class="header" href="#using-traits" id="using-traits">Using traits</a></h1>
+<h2><a class="header" href="#using-traits" id="using-traits">Using traits</a></h2>
 <p>We can also create arrays by using vectors of elements. This is thanks to the
 <strong>From</strong> trait implemented in the crate.</p>
 <pre><pre class="playground"><code class="language-rust">use arrow::array::{PrimitiveArray, Int32Array};
@@ -275,11 +275,10 @@ fn main() {
 arrays to store data in memory. The create has a variety of methods to store
 data in memory that follows the Arrow specification; all data is padded and
 aligned. </p>
-<p>Also, since all the arrays store an atomic reference to the buffers, it can be
+<p>Also, since all the arrays store an atomic reference to the buffers, they can be
 shared between processes without copying the data. However, before we venture
-into data sharing is important to see what operations are defined for the arrays
-and also review the available nested structures and how they can be created
-using primitive arrays.</p>
+into data sharing is important to see how to create nested structures using
+primitive arrays and buffers.</p>
 
                     </main>
 
@@ -292,7 +291,7 @@ using primitive arrays.</p>
                         
 
                         
-                            <a rel="next" href="arrays_operations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="arrays_nested.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -310,7 +309,7 @@ using primitive arrays.</p>
                 
 
                 
-                    <a rel="next" href="arrays_operations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="arrays_nested.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array Data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.4.</strong> Operations with arrays</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.5.</strong> Nested arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.5.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Reading files</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Reading Parquet files</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li><li class="spacer"></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Contributors</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -291,7 +291,7 @@ of the columnar format. </p>
 understand the basic unit that allocates the required memory used to hold data;
 the buffer.</p>
 <h1><a class="header" href="#the-arrow-buffer" id="the-arrow-buffer">The Arrow Buffer</a></h1>
-<p>The <a href="https://docs.rs/arrow/2.0.0/arrow/buffer/struct.Buffer.html">Buffer</a> is the
+<p>The <a href="https://docs.rs/arrow/3.0.0/arrow/buffer/struct.Buffer.html">Buffer</a> is the
 main data container in the Arrow Array. Depending on the type of array that is
 being created, it can have one or many buffers holding information. So, this
 means that an array could include a combination of a values buffer, a validity
@@ -407,7 +407,7 @@ Arrow arrays.</p>
 <p>As we discussed before, an Arrow array is made out of several components and
 the way these elements are stored will define the type of array that is being
 created. In the Rust Arrow crate the
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.ArrayData.html">ArrayData</a>
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.ArrayData.html">ArrayData</a>
 struct is the generic representation of the data stored in memory. All types of
 arrays are made or represented using an atomic reference to an ArrayData. </p>
 <p>Let us understand how this struct represents an Arrow array by creating one by
@@ -449,7 +449,7 @@ used to define attributes and operations in the arrays. </p>
 <p>Lets begin with the type of data. Each Arrow Array can store different
 datatypes in memory as mentioned before. The available datatypes are defined
 using the enum
-<a href="https://docs.rs/arrow/2.0.0/arrow/datatypes/enum.DataType.html">DataType</a> and
+<a href="https://docs.rs/arrow/3.0.0/arrow/datatypes/enum.DataType.html">DataType</a> and
 it follows the Arrow specification on datatypes (see
 <a href="https://github.com/apache/arrow/blob/master/format/Schema.fbs">Scehma.fbs</a>).
 The selection of the datatype is very important because, as we saw in the
@@ -481,9 +481,9 @@ requires a data buffer and an offset buffer (We'll see an example later).</p>
 <p>The child data is used for nested arrays, such as a list array or a struct
 array.  Each of them represent data collections that are composed of one or
 more primitive arrays.</p>
-<h1><a class="header" href="#primitive-arrays" id="primitive-arrays">Primitive arrays</a></h1>
+<h1><a class="header" href="#primitive-arrays" id="primitive-arrays">Primitive Arrays</a></h1>
 <p>A primitive array
-(<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>)
+(<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>)
 is a type of array used to store a list of elements of the same type. It
 includes fixed bit-width, variable-size, binary and null arrays.</p>
 <p>Lets begin with an example of a primitive array and how the data looks like
@@ -526,7 +526,7 @@ datatypes. They will even help us define the validity buffer used to mark the
 presence of null values.</p>
 <p>For this example we will use an Int32Builder which is a type definition created
 from
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.PrimitiveBuilder.html">PrimitiveBuilder</a></p>
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveBuilder.html">PrimitiveBuilder</a></p>
 <pre><pre class="playground"><code class="language-rust">use arrow::array::Int32Builder;
 
 fn main() {
@@ -550,7 +550,7 @@ fn main() {
 <p>As you can see, now the array was created in a more organic way. We didn't
 need to define all the elements that compose the array. This builder will let
 us add as many values as we need (thanks to the
-<a href="https://docs.rs/arrow/2.0.0/arrow/buffer/struct.MutableBuffer.html">MutableBuffer</a>
+<a href="https://docs.rs/arrow/3.0.0/arrow/buffer/struct.MutableBuffer.html">MutableBuffer</a>
 that is used by the constructor). We can add values, slices and nulls in one
 go. When there are no more values to add, the builder will create a primitive
 array that represents all the data stored within the data buffer. </p>
@@ -558,12 +558,12 @@ array that represents all the data stored within the data buffer. </p>
 its memory and the builder can be used again to create another primitive array.</p>
 <blockquote>
 <p><strong>Note</strong>. The Arrow create also has
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.BufferBuilder.html">BufferBuilders</a>
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.BufferBuilder.html">BufferBuilders</a>
 that behave like the array builders. They can be used to create buffers in a
 dynamic way by adding values as needed. The finish buffer can be used to
 create arrays of different types.</p>
 </blockquote>
-<h1><a class="header" href="#using-traits" id="using-traits">Using traits</a></h1>
+<h2><a class="header" href="#using-traits" id="using-traits">Using traits</a></h2>
 <p>We can also create arrays by using vectors of elements. This is thanks to the
 <strong>From</strong> trait implemented in the crate.</p>
 <pre><pre class="playground"><code class="language-rust">use arrow::array::{PrimitiveArray, Int32Array};
@@ -593,21 +593,10 @@ fn main() {
 arrays to store data in memory. The create has a variety of methods to store
 data in memory that follows the Arrow specification; all data is padded and
 aligned. </p>
-<p>Also, since all the arrays store an atomic reference to the buffers, it can be
+<p>Also, since all the arrays store an atomic reference to the buffers, they can be
 shared between processes without copying the data. However, before we venture
-into data sharing is important to see what operations are defined for the arrays
-and also review the available nested structures and how they can be created
-using primitive arrays.</p>
-<h1><a class="header" href="#array-operations" id="array-operations">Array operations</a></h1>
-<p>The arrow crate defines several operations that can be performed on arrays.
-These include comparisons, aggregations, arithmetic operations, concatenations,
-and more.</p>
-<p>In this chapter we will see some of the most common operations that can be
-performed on arrays.</p>
-<p>comparisons</p>
-<p>aggregations</p>
-<p>arithmetic operations</p>
-<p>concatenations</p>
+into data sharing is important to see how to create nested structures using
+primitive arrays and buffers.</p>
 <h1><a class="header" href="#nested-arrays" id="nested-arrays">Nested arrays</a></h1>
 <p>A primitive array is a useful struct to store values that have the same
 datatype. However, if we only use primitive arrays it will be impossible to
@@ -639,7 +628,7 @@ of the Arrow columnar format. </p>
 </blockquote>
 <h3><a class="header" href="#listarray" id="listarray">ListArray</a></h3>
 <p>Lets continue this section by creating a
-<a href="https://docs.rs/arrow/2.0.0/arrow/array/type.ListArray.html">ListArray</a> to
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html">ListArray</a> to
 show you how to create a variable size list and how it is represented in
 memory.  For reference, we will use the next image to explain how a ListArray
 is created and what is happening behind the scene.</p>
@@ -734,10 +723,47 @@ from the image, which create the nested lists and show that data in the correct
 format and structure. </p>
 <p>A ListArray is very flexible and by following this procedure is possible to
 create any type of nested lists.</p>
+<h4><a class="header" href="#using-the-list-builder" id="using-the-list-builder">Using the List builder</a></h4>
+<p>In order to make our life easier while creating a List Array we can use the
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.ListBuilder.html">ListBuilder</a>
+and
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListBuilder.html">LargeListBuilder</a>.
+By using these builders we no longer have to keep track of the three buffers
+that compose the List Array. </p>
+<p>The next example shows how a list array can be created by just inserting values
+into it and selecting when a sub list starts and ends.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::{Int32Builder, ListBuilder};
+
+fn main() {
+    // List array with builder
+    let values_builder = Int32Builder::new(10);
+    let mut builder = ListBuilder::new(values_builder);
+
+    //  [[0, 1, 2], [3, 4, 5], [6, 7]]
+    builder.values().append_value(0).unwrap();
+    builder.values().append_value(1).unwrap();
+    builder.values().append_value(2).unwrap();
+    builder.append(true).unwrap();
+    builder.values().append_value(3).unwrap();
+    builder.values().append_value(4).unwrap();
+    builder.values().append_value(5).unwrap();
+    builder.append(true).unwrap();
+    builder.values().append_value(6).unwrap();
+    builder.values().append_value(7).unwrap();
+    builder.append(true).unwrap();
+    let list_array = builder.finish();
+
+    println!(&quot;{:?}&quot;, list_array);
+}
+</code></pre></pre>
 <h3><a class="header" href="#stringarray" id="stringarray">StringArray</a></h3>
-<p>A <a href="https://docs.rs/arrow/2.0.0/arrow/array/type.StringArray.html">StringArray</a>
-follows the same idea as a ListArray, the only difference is that the values
-buffer is made of <strong>u8</strong>s that represents the letters or characters.</p>
+<p>An String Array
+(<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html">StringArray</a>
+and
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html">LargeStringArray</a>)
+is used to represent a list of strings stored using the arrow format. A
+StringArray follows the same idea as a ListArray, the only difference is that
+the values buffer is made of <strong>u8</strong>s that represents the letters or characters.</p>
 <p>As an example lets create an StringArray that holds the next list:</p>
 <pre><code class="language-json">array = [&quot;Hello&quot;, &quot;from&quot;, null, &quot;Apache&quot;, &quot;Arrow&quot;]
 </code></pre>
@@ -765,23 +791,60 @@ fn main() {
         .add_buffer(Buffer::from(&amp;values[..]))
         .null_bit_buffer(Buffer::from([0b00011011]))
         .build();
-    let binary_array = StringArray::from(array_data);
+    let string_array = StringArray::from(array_data);
 
-    println!(&quot;{:?}&quot;, binary_array);
+    println!(&quot;{:?}&quot;, string_array);
+    println!(&quot;Value: {:?}&quot;, string_array.value(0));
+    println!(&quot;Value: {:?}&quot;, string_array.value(1));
+    println!(&quot;Value: {:?}&quot;, string_array.value(2));
 }
 </code></pre></pre>
 <p>Your output should look similar to this:</p>
 <pre><code class="language-json">StringArray
     [ &quot;hello&quot;, &quot;from&quot;, null, &quot;Apache&quot;, &quot;Arrow&quot;, ]
 </code></pre>
-<p>As you can see, we can store as many words as we want by using a values buffer
-and an offset buffer.</p>
+<p>Notice how when we print the string array the strings are printed as the should
+be and not as the u8 values stored in the buffer. This is thanks to the fact
+that a StringArray &quot;knows&quot; the type of data it holds and thus can represent the
+strings in the correct way. This can also be seen when the value() method is
+used on the string. The returned value is the correct representation of the word
+stored in the array.</p>
 <blockquote>
 <p><strong>Tip</strong>. From your code remove the null_bit_buffer method from the
 constructor and see how the empty space is now represented.</p>
 </blockquote>
+<h4><a class="header" href="#using-the-string-builder" id="using-the-string-builder">Using the String builder</a></h4>
+<p>Similar to the List Array, the construction of a String Array can become a bit
+complicated if we do it from scratch. You would have to split and put together
+all the letters from the list and then you would need to create an offset list
+for the words, plus adding the validity buffer. This would take a lot of time
+every time a new string array is required. For this reason, the
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.StringBuilder.html">StringBuilder</a>
+and
+<a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringBuilder.html">LargeStringBuilder</a>
+where created.</p>
+<p>Lets create a new String Array using an String Builder.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::array::StringBuilder;
+
+fn main() {
+    println!(&quot;Creating an String Array using builder&quot;);
+
+    let mut builder = StringBuilder::new(10);
+    builder.append_value(&quot;one&quot;).unwrap();
+    builder.append_value(&quot;two&quot;).unwrap();
+    builder.append_value(&quot;three&quot;).unwrap();
+    builder.append_null().unwrap();
+    builder.append_value(&quot;four&quot;).unwrap();
+
+    let string_array = builder.finish();
+    println!(&quot;{:?}&quot;, string_array);
+}
+</code></pre></pre>
+<p>As you can see, the creation process is more streamlined an it feels more
+natural. The builder will append the string and it will create the required
+buffers automatically.</p>
 <h2><a class="header" href="#struct-array" id="struct-array">Struct Array</a></h2>
-<p><a href="https://docs.rs/arrow/2.0.0/arrow/array/struct.StructArray.html">StructArrays</a>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.StructArray.html">StructArrays</a>
 are used to represent mixed data, each being identified by a name and a
 datatype.  As an example we have this array:</p>
 <pre><code class="language-json">array = {
@@ -892,6 +955,16 @@ array to another process for further analysis. And since all data is following
 a columnar format, the dataframe is stored in memory in a very efficient way.</p>
 <p>In the next chapter we are going to talk about the RecordBatch and how it can 
 be used to share data between processes.</p>
+<h1><a class="header" href="#array-operations" id="array-operations">Array operations</a></h1>
+<p>The arrow crate defines several operations that can be performed on arrays.
+These include comparisons, aggregations, arithmetic operations, concatenations,
+and more.</p>
+<p>In this chapter we will see some of the most common operations that can be
+performed on arrays.</p>
+<p>comparisons</p>
+<p>aggregations</p>
+<p>arithmetic operations</p>
+<p>concatenations</p>
 
                     </main>
 
