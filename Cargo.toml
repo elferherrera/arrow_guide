@@ -9,3 +9,4 @@ edition = "2018"
 [dev-dependencies]
 doc-comment="0.3"
 arrow = { git = "https://github.com/apache/arrow" }
+parquet = { git = "https://github.com/apache/arrow" }

@@ -7,10 +7,10 @@ and more.
 In this chapter we will see some of the most common operations that can be
 performed on arrays.
 
-comparisons
+## Comparisons
 
-aggregations
+## Aggregations
 
-arithmetic operations
+## Arithmetic operations
 
-concatenations
+## Concatenations
