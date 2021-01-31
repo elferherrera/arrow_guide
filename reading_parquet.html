@@ -1,0 +1,769 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Reading Parquet files - Apache Arrow [Rust]</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html" class="active"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Contributors</div></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Apache Arrow [Rust]</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#reading-parquet-files" id="reading-parquet-files">Reading Parquet Files</a></h1>
+<p>A <a href="https://parquet.apache.org">parquet</a> file is a columnar storage format that
+is designed to efficiently store data in disk. Storing data using this format
+presents several <a href="https://databricks.com/glossary/what-is-parquet">advantages</a>
+and you are invited to have a look a them and conclude if these format could be of
+use for your project. </p>
+<p>In this chapter we are going to see how to open a parquet file using the
+<a href="https://crates.io/crates/parquet">parquet</a> crate. The parquet crate is one of
+several crates that forms part of the Rust arrow suite. The reader that we are
+going to use from this crate reads a file in chunks and for each chunk it
+creates a RecordBach that can be consumed. As you will see with the example,
+these operations are fairly straight forward thanks to the parquet crate.</p>
+<p>However, in order to make this chapter a bit more interesting, we are going to
+create a Table struct that can be used to read and write parquet files. The
+Table struct will implement some functions that will allow us to maintain
+information in memory for further use and to extract specific values from them
+either using an index or an iterator.</p>
+<h2><a class="header" href="#the-data" id="the-data">The data</a></h2>
+<p>The data that was used to test this code can be found from this
+<a href="https://domohelp.domo.com/hc/en-us/articles/360043931814-Fun-Sample-DataSets">page</a>.
+If you want to use the same dataset you will need to download the &quot;120 Years of
+Olimpic History&quot; and convert it to a parquet file. The easiest way to do it is
+by loading the csv file using pandas
+(<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_parquet.html">pandas.read_parquet</a>)
+and save it with pandas
+(<a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_parquet.html">df.to_parquet</a>).</p>
+<blockquote>
+<p><strong>Note</strong>. Keep in mind that the code that we are going to create can be used
+to read any parquet file. So don't worry if you are unable to convert the
+previously mentioned file. As long as you have a parquet file you are good to
+go.</p>
+</blockquote>
+<h2><a class="header" href="#the-table-struct" id="the-table-struct">The Table struct</a></h2>
+<p>The module that we are going to use to read the parquet is the
+<a href="https://docs.rs/parquet/3.0.0/parquet/arrow/index.html">parquet::arrow</a>. This
+module already defines a reader that can be used to extract the information in
+chunks. However, since we want to keep the data in memory to use it for further
+analysis, we will create and compose a struct called Table. </p>
+<p>The Table struct will maintain a vector with the information extracted from the
+parquet file and this data will be used to extract specific values from the
+columns.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::{
+    record_batch::RecordBatch,
+    datatypes::Schema,
+};
+use parquet::{
+    arrow::{ArrowReader, ArrowWriter, ParquetFileArrowReader},
+    file::reader::SerializedFileReader,
+};
+use std::sync::Arc;
+use std::fs::File;
+use std::path::Path;
+
+// The Table struct. This object will represent the data read from the
+// parquet files and it will be our entry point to any value in the file
+pub struct Table {
+    // We mantain a copy of the RecordBatch schema to keep handy the
+    // file's metadata information.
+    schema: Schema,
+    data: Vec&lt;RecordBatch&gt;,
+    rows: usize,
+}
+
+impl Table {
+    pub fn read_parquet&lt;T: AsRef&lt;Path&gt;&gt;(path: T, chunk_size: usize) -&gt; Self {
+        // Using the parquet Arrow reader to extract batches of data
+        // from the file to keep them in memory
+        let file = File::open(path).unwrap();
+        let file_reader = SerializedFileReader::new(file).unwrap();
+        let mut arrow_reader = ParquetFileArrowReader::new(Arc::new(file_reader));
+
+        let schema = arrow_reader.get_schema().unwrap();
+        let record_batch_reader = arrow_reader.get_record_reader(chunk_size).unwrap();
+        let mut data: Vec&lt;RecordBatch&gt; = Vec::new();
+
+        let mut rows = 0;
+        for maybe_batch in record_batch_reader {
+            let record_batch = maybe_batch.unwrap();
+            rows += record_batch.num_rows();
+
+            data.push(record_batch);
+        }
+
+        Self { schema, data, rows }
+    }
+
+    // Simple writer to store the table data into a parquet file
+    pub fn to_parquet&lt;T: AsRef&lt;Path&gt;&gt;(&amp;self, path: T) {
+        let file = File::create(path).unwrap();
+        let mut writer = ArrowWriter::try_new(file, Arc::new(self.schema.clone()), None).unwrap();
+
+        for batch in self.data.iter() {
+            writer.write(&amp;batch).unwrap();
+        }
+
+        writer.close().unwrap();
+    }
+
+    pub fn schema(&amp;self) -&gt; &amp;Schema {
+        &amp;self.schema
+    }
+
+    pub fn data(&amp;self) -&gt; &amp;Vec&lt;RecordBatch&gt; {
+        &amp;self.data
+    }
+
+    pub fn rows(&amp;self) -&gt; usize {
+        self.rows
+    }
+}
+
+fn main() {
+    let table = Table::read_parquet(&quot;data/olympics.parquet&quot;, 2000);
+    println!(&quot;Number of rows: {}&quot;, table.rows())
+}
+</code></pre></pre>
+<p>The most important functions from the struct are the <strong>read_parquet</strong> and
+<strong>to_parquet</strong>. These represent the backbone used to manipulate parquet files.
+In the <strong>read_parquet</strong> function we are reading the file in chunks or batches
+using the
+<a href="https://docs.rs/parquet/3.0.0/parquet/arrow/arrow_reader/struct.ParquetFileArrowReader.html">ParquetFileArrowReader</a>.
+These batches, which are stored in a vector called data, will be our reference
+for the next functions that we are going to implemented on Table. To write data
+back to a parquet file we are using the
+<a href="https://docs.rs/parquet/3.0.0/parquet/arrow/arrow_writer/struct.ArrowWriter.html">ArrowWriter</a>
+struct, which writes the data to the desired path. As you can see, the parquet
+crate has everything we need to read from and store data in parquet files. That
+is very convenient and helpful.</p>
+<p>To make the Table struct a bit useful for further work, we are also keeping a
+copy of the RecordBatch schema in the table. This will make our life easier
+whenever we want to extract the file's metadata. We also added some helper
+functions in order to make the Table object a bit more useful.</p>
+<p>Go ahead and compile this struct together with the main function to read and
+write a parquet file. </p>
+<p>Well, writing and reading data wasn't that hard. That's thanks to the great work
+put into the parquet crate. Now, since we have created <strong>Table</strong> to read the
+files, lets continue by giving it a bit more functionality to learn more about
+the Arrow datatypes.</p>
+<h2><a class="header" href="#getting-a-value" id="getting-a-value">Getting a value</a></h2>
+<p>Here comes the interesting part of the Table struct; to extract a value from the
+RecordBatches. One could be tempted to simply use the vector holding the
+RecordBatches and try to read the values from there. Let say we could use an
+index to select a RecordBatch from the vector and then using the RecordBatch
+<a href="https://docs.rs/arrow/3.0.0/arrow/record_batch/struct.RecordBatch.html#method.column">column</a>
+method we could select a column from the RecordBatch. With the desired column
+available we could select any value from it. That sounds straight
+forward, right?. If only Rust were that simple.</p>
+<p>One thing that should be noted from the RecordBatch
+<a href="https://docs.rs/arrow/3.0.0/arrow/record_batch/struct.RecordBatch.html#method.column">column</a>
+method is that the return signature is <strong>&amp;ArrayRef</strong> which is an alias for and
+<strong>Arc&lt;dyn Array&gt;</strong>. This means that the method returns a reference to an
+object that implements dynamically the <strong>Array</strong> trait, not an explicit type of
+Arrow array. This does make sense, since the return column can be of any Arrow
+<a href="https://docs.rs/arrow/3.0.0/arrow/datatypes/index.html">datatype</a>, Rust needs
+to know dynamically if the values read from the column are an integer, float,
+string or a list. </p>
+<p>That's why the <strong>Array</strong> trait is so useful in this case. It lets us work with
+any array that implements the <strong>Array</strong> trait without worrying about its
+specific type. However, this complicates our life because now we don't have an
+specific type of array and thus we can not extract a value with its type from
+the column. So, how are we going to access the real value from the columns?.</p>
+<h2><a class="header" href="#enter-the-enums" id="enter-the-enums">Enter the enums</a></h2>
+<p>One way in which we can access the data from any array that implements the
+<strong>Array</strong> trait is by using the <strong>as_any</strong> method available to us via the
+<strong>AsAny</strong> trait. The <strong>AsAny</strong> trait exposes the function <strong>dowcast_ref</strong> that,
+as long as it is possible, downcasts this generic array to the specific array. 
+We can do this for any column we would like to read data from. This approach
+works but it is not the most flexible approach we can take.</p>
+<p>Another thing we could do is to define an Enum that encapsulates all possible types
+that could be found when reading the file. The advantage of using an enum this
+way is that we can implement a unique function that converts or downcasts the
+returned array into each of the possible Arrow arrays types.</p>
+<p>In order to be able to downcast the Array to the desired array type we are going
+to take advantage of the previously mentioned fact that the <strong>Array</strong> trait
+implements the <strong>AsAny</strong> trait for all the Arrow array types. And to make it
+even more flexible we are going to help ourselves by writing all the helper
+functions required for each type we are going the use a macro to do the job for
+us.</p>
+<p>Have a look at the implementation of the enum ScalarValue</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use arrow::{
+    array::{
+        Array, ArrayRef, BooleanArray, Date32Array, Float32Array, Float64Array, Int16Array,
+        Int32Array, Int64Array, Int8Array, LargeStringArray, ListArray, StringArray, UInt16Array,
+        UInt32Array, UInt64Array, UInt8Array,
+    },
+    datatypes::{DataType, DateUnit, Field, Schema, TimeUnit},
+    record_batch::RecordBatch,
+};
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ScalarValue {
+    Boolean(Option&lt;bool&gt;),
+    Float32(Option&lt;f32&gt;),
+    Float64(Option&lt;f64&gt;),
+    Int8(Option&lt;i8&gt;),
+    Int16(Option&lt;i16&gt;),
+    Int32(Option&lt;i32&gt;),
+    Int64(Option&lt;i64&gt;),
+    UInt8(Option&lt;u8&gt;),
+    UInt16(Option&lt;u16&gt;),
+    UInt32(Option&lt;u32&gt;),
+    UInt64(Option&lt;u64&gt;),
+    Utf8(Option&lt;String&gt;),
+    LargeUtf8(Option&lt;String&gt;),
+    List(Option&lt;Vec&lt;ScalarValue&gt;&gt;, DataType),
+    Date32(Option&lt;i32&gt;),
+    TimeMicrosecond(Option&lt;i64&gt;),
+    TimeNanosecond(Option&lt;i64&gt;),
+}
+
+// Helper macro that is used to create the function that downcasts
+// an array to the correct type of array. This is done thanks to all
+// the defined Arrow data types.
+macro_rules! typed_cast {
+    ($array:expr, $index:expr, $ARRAYTYPE:ident, $SCALAR:ident) =&gt; {{
+        let array = $array.as_any().downcast_ref::&lt;$ARRAYTYPE&gt;().unwrap();
+        ScalarValue::$SCALAR(match array.is_null($index) {
+            true =&gt; None,
+            false =&gt; Some(array.value($index).into()),
+        })
+    }};
+}
+
+impl ScalarValue {
+    pub fn try_from_array(array: &amp;ArrayRef, index: usize) -&gt; Result&lt;Self, String&gt; {
+        Ok(match array.data_type() {
+            DataType::Boolean =&gt; typed_cast!(array, index, BooleanArray, Boolean),
+            DataType::Float64 =&gt; typed_cast!(array, index, Float64Array, Float64),
+            DataType::Float32 =&gt; typed_cast!(array, index, Float32Array, Float32),
+            DataType::UInt64 =&gt; typed_cast!(array, index, UInt64Array, UInt64),
+            DataType::UInt32 =&gt; typed_cast!(array, index, UInt32Array, UInt32),
+            DataType::UInt16 =&gt; typed_cast!(array, index, UInt16Array, UInt16),
+            DataType::UInt8 =&gt; typed_cast!(array, index, UInt8Array, UInt8),
+            DataType::Int64 =&gt; typed_cast!(array, index, Int64Array, Int64),
+            DataType::Int32 =&gt; typed_cast!(array, index, Int32Array, Int32),
+            DataType::Int16 =&gt; typed_cast!(array, index, Int16Array, Int16),
+            DataType::Int8 =&gt; typed_cast!(array, index, Int8Array, Int8),
+            DataType::Utf8 =&gt; typed_cast!(array, index, StringArray, Utf8),
+            DataType::LargeUtf8 =&gt; typed_cast!(array, index, LargeStringArray, LargeUtf8),
+            DataType::List(nested_type) =&gt; {
+                let list_array = array
+                    .as_any()
+                    .downcast_ref::&lt;ListArray&gt;()
+                    .ok_or_else(|| &quot;Failed to downcast ListArray&quot;.to_string())?;
+                let value = match list_array.is_null(index) {
+                    true =&gt; None,
+                    false =&gt; {
+                        let nested_array = list_array.value(index);
+                        let scalar_vec = (0..nested_array.len())
+                            .map(|i| ScalarValue::try_from_array(&amp;nested_array, i))
+                            .collect::&lt;Result&lt;Vec&lt;ScalarValue&gt;, String&gt;&gt;()?;
+                        Some(scalar_vec)
+                    }
+                };
+                ScalarValue::List(value, nested_type.data_type().clone())
+            }
+            DataType::Date32(DateUnit::Day) =&gt; {
+                typed_cast!(array, index, Date32Array, Date32)
+            }
+            other =&gt; {
+                return Err(format!(&quot;Downcast not available for type: {}&quot;, other));
+            }
+        })
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>The <strong>try_from_array</strong> function uses an array, which until this point we only
+know that is an object that implements dynamically the <strong>Array</strong> trait, and
+downcasts it to the correct Arrow array type. This is done thanks to the options
+defined in the ScalarValue enum and the Arrow implementation. Now, with this
+enum under our belt we can implement the missing functions in the Table struct.</p>
+<h2><a class="header" href="#the-complete-implementation" id="the-complete-implementation">The complete implementation</a></h2>
+<p>With the ScalarValue enum defined, we can write the missing function from Table;
+collect a value from a column. This missing function will extract a value from a
+column using an index and returns it with the correct type. Also, since it may
+be useful to have a way to loop though all the values in a column, we can
+implement the iterator trait for a column.</p>
+<p>The final implementation of all the code is presented next.</p>
+<pre><pre class="playground"><code class="language-rust">use arrow::{
+    array::{
+        Array, ArrayRef, BooleanArray, Date32Array, Float32Array, Float64Array, Int16Array,
+        Int32Array, Int64Array, Int8Array, LargeStringArray, ListArray, StringArray, UInt16Array,
+        UInt32Array, UInt64Array, UInt8Array,
+    },
+    datatypes::{DataType, DateUnit, Field, Schema, TimeUnit},
+    record_batch::RecordBatch,
+};
+
+use parquet::{
+    arrow::{ArrowReader, ArrowWriter, ParquetFileArrowReader},
+    file::reader::SerializedFileReader,
+};
+
+use std::fs::File;
+use std::path::Path;
+use std::sync::Arc;
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ScalarValue {
+    Boolean(Option&lt;bool&gt;),
+    Float32(Option&lt;f32&gt;),
+    Float64(Option&lt;f64&gt;),
+    Int8(Option&lt;i8&gt;),
+    Int16(Option&lt;i16&gt;),
+    Int32(Option&lt;i32&gt;),
+    Int64(Option&lt;i64&gt;),
+    UInt8(Option&lt;u8&gt;),
+    UInt16(Option&lt;u16&gt;),
+    UInt32(Option&lt;u32&gt;),
+    UInt64(Option&lt;u64&gt;),
+    Utf8(Option&lt;String&gt;),
+    LargeUtf8(Option&lt;String&gt;),
+    List(Option&lt;Vec&lt;ScalarValue&gt;&gt;, DataType),
+    Date32(Option&lt;i32&gt;),
+    TimeMicrosecond(Option&lt;i64&gt;),
+    TimeNanosecond(Option&lt;i64&gt;),
+}
+
+macro_rules! typed_cast {
+    ($array:expr, $index:expr, $ARRAYTYPE:ident, $SCALAR:ident) =&gt; {{
+        let array = $array.as_any().downcast_ref::&lt;$ARRAYTYPE&gt;().unwrap();
+        ScalarValue::$SCALAR(match array.is_null($index) {
+            true =&gt; None,
+            false =&gt; Some(array.value($index).into()),
+        })
+    }};
+}
+
+impl ScalarValue {
+    pub fn try_from_array(array: &amp;ArrayRef, index: usize) -&gt; Result&lt;Self, String&gt; {
+        Ok(match array.data_type() {
+            DataType::Boolean =&gt; typed_cast!(array, index, BooleanArray, Boolean),
+            DataType::Float64 =&gt; typed_cast!(array, index, Float64Array, Float64),
+            DataType::Float32 =&gt; typed_cast!(array, index, Float32Array, Float32),
+            DataType::UInt64 =&gt; typed_cast!(array, index, UInt64Array, UInt64),
+            DataType::UInt32 =&gt; typed_cast!(array, index, UInt32Array, UInt32),
+            DataType::UInt16 =&gt; typed_cast!(array, index, UInt16Array, UInt16),
+            DataType::UInt8 =&gt; typed_cast!(array, index, UInt8Array, UInt8),
+            DataType::Int64 =&gt; typed_cast!(array, index, Int64Array, Int64),
+            DataType::Int32 =&gt; typed_cast!(array, index, Int32Array, Int32),
+            DataType::Int16 =&gt; typed_cast!(array, index, Int16Array, Int16),
+            DataType::Int8 =&gt; typed_cast!(array, index, Int8Array, Int8),
+            DataType::Utf8 =&gt; typed_cast!(array, index, StringArray, Utf8),
+            DataType::LargeUtf8 =&gt; typed_cast!(array, index, LargeStringArray, LargeUtf8),
+            DataType::List(nested_type) =&gt; {
+                let list_array = array
+                    .as_any()
+                    .downcast_ref::&lt;ListArray&gt;()
+                    .ok_or_else(|| &quot;Failed to downcast ListArray&quot;.to_string())?;
+                let value = match list_array.is_null(index) {
+                    true =&gt; None,
+                    false =&gt; {
+                        let nested_array = list_array.value(index);
+                        let scalar_vec = (0..nested_array.len())
+                            .map(|i| ScalarValue::try_from_array(&amp;nested_array, i))
+                            .collect::&lt;Result&lt;Vec&lt;ScalarValue&gt;, String&gt;&gt;()?;
+                        Some(scalar_vec)
+                    }
+                };
+                ScalarValue::List(value, nested_type.data_type().clone())
+            }
+            DataType::Date32(DateUnit::Day) =&gt; {
+                typed_cast!(array, index, Date32Array, Date32)
+            }
+            other =&gt; {
+                return Err(format!(&quot;Downcast not available for type: {}&quot;, other));
+            }
+        })
+    }
+}
+
+pub struct Table {
+    schema: Schema,
+    data: Vec&lt;RecordBatch&gt;,
+    rows: usize,
+    // We keep the batch chunk size to calculate a relative index
+    // to access the information from the data vector
+    chunk_size: usize,
+}
+
+impl Table {
+    pub fn read_parquet&lt;T: AsRef&lt;Path&gt;&gt;(path: T, chunk_size: usize) -&gt; Self {
+        let file = File::open(path).unwrap();
+        let file_reader = SerializedFileReader::new(file).unwrap();
+        let mut arrow_reader = ParquetFileArrowReader::new(Arc::new(file_reader));
+
+        let schema = arrow_reader.get_schema().unwrap();
+        let record_batch_reader = arrow_reader.get_record_reader(chunk_size).unwrap();
+        let mut data: Vec&lt;RecordBatch&gt; = Vec::new();
+
+        let mut rows = 0;
+        for maybe_batch in record_batch_reader {
+            let record_batch = maybe_batch.unwrap();
+            rows += record_batch.num_rows();
+
+            data.push(record_batch);
+        }
+
+        Self {
+            schema,
+            data,
+            rows,
+            chunk_size,
+        }
+    }
+
+    pub fn to_parquet&lt;T: AsRef&lt;Path&gt;&gt;(&amp;self, path: T) {
+        let file = File::create(path).unwrap();
+        let mut writer = ArrowWriter::try_new(file, Arc::new(self.schema.clone()), None).unwrap();
+
+        for batch in self.data.iter() {
+            writer.write(&amp;batch).unwrap();
+        }
+
+        writer.close().unwrap();
+    }
+
+    pub fn schema(&amp;self) -&gt; &amp;Schema {
+        &amp;self.schema
+    }
+
+    pub fn data(&amp;self) -&gt; &amp;Vec&lt;RecordBatch&gt; {
+        &amp;self.data
+    }
+
+    pub fn rows(&amp;self) -&gt; usize {
+        self.rows
+    }
+
+    // Function to get a value from a column in the table
+    // The function will search in the batches from the data
+    // vector and returns the selected value with its correct
+    // datatype
+    pub fn value(&amp;self, column: usize, index: usize) -&gt; Option&lt;ScalarValue&gt; {
+        if column &gt;= self.schema.fields().len() {
+            return None;
+        }
+
+        let batch = index / self.chunk_size;
+        if batch &gt;= self.data.len() {
+            return None;
+        }
+
+        let array = self.data[batch].column(column);
+        let index_in_batch = index % self.chunk_size;
+
+        ScalarValue::try_from_array(array, index_in_batch).ok()
+    }
+
+
+    pub fn column_iterator(&amp;self, column: usize) -&gt; ColumnIterator {
+        ColumnIterator::new(column, &amp;self.data)
+    }
+}
+
+// Iterator to loop through all the values in a column using
+// as return value a ScalarValue
+pub struct ColumnIterator&lt;'iter&gt; {
+    column: usize,
+    data: &amp;'iter [RecordBatch],
+    index: usize,
+    batch: usize,
+}
+
+impl&lt;'iter&gt; ColumnIterator&lt;'iter&gt; {
+    pub fn new(column: usize, data: &amp;'iter [RecordBatch]) -&gt; Self {
+        Self {
+            column,
+            data,
+            index: 0,
+            batch: 0,
+        }
+    }
+}
+
+impl&lt;'iter&gt; Iterator for ColumnIterator&lt;'iter&gt; {
+    type Item = ScalarValue;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {
+        let records = self.data[self.batch].column(self.column).len();
+
+        let (next_record, next_batch) = if self.index + 1 &gt;= records {
+            (0, self.batch + 1)
+        } else {
+            (self.index + 1, self.batch)
+        };
+
+        if next_batch &gt;= self.data.len() {
+            return None;
+        }
+
+        let array = self.data[self.batch].column(self.column);
+
+        let value = ScalarValue::try_from_array(array, self.index).ok();
+
+        self.index = next_record;
+        self.batch = next_batch;
+
+        value
+    }
+}
+
+fn main() {
+    let table = Table::read_parquet(&quot;data/olympics.parquet&quot;, 2000);
+
+    let col_iter = table.column_iterator(0);
+
+    for val in col_iter {
+        if let ScalarValue::Int64(res) = val {
+            println!(&quot;{:?}&quot;, res);
+        }
+    }
+}
+</code></pre></pre>
+<p>It should be noted that without the definition of the <strong>ScalarValue</strong> enum, it
+would have been impossible to keep the return value generic for any data type
+defined in the Arrow implementation. There was no way to create an specific
+Arrow datatype return value for this function. Well, maybe we could have done it
+with a new trait, but we would have had to do more work than the one we just
+did. The enum has saved our day.</p>
+<p>Have fun compiling the code and testing reading and writing different
+parquet files. </p>
+<h2><a class="header" href="#conclusion" id="conclusion">Conclusion</a></h2>
+<p>From this and the previous examples that we saw in this section, we hope you get
+and idea of how you could use the Arrow implementation to read data from
+different type of files and use them for data analysis and calculations. As you
+can see, the Rust Arrow suite already has several methods and structs that make
+these operations simple to implement.</p>
+<p>One thing that should be mention is that the implementation of the ScalarValue
+enum is a simplification of the approach used in the
+<a href="https://docs.rs/datafusion/3.0.0/datafusion/">Datafusion</a> crate. The objective
+of Datafusion is to create an interface for doing complex data operations using
+Arrow as the data backbone. It implements a
+<a href="https://docs.rs/datafusion/3.0.0/datafusion/dataframe/trait.DataFrame.html">DataFrame</a>
+which is a more advanced and complex version of <strong>Table</strong> struct we just created
+in this example. It aims to become a Pandas analogue in Rust. We are
+going to discuss Datafusion in future chapters but before that, we are going to
+talk about IPC (interprocess communication) and how Arrow is used to share data
+between processes. </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="reading_json.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="reading_json.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

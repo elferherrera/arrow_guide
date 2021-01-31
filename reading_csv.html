@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>The buffer - Apache Arrow [Rust]</title>
+        <title>Reading CSV files - Apache Arrow [Rust]</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html" class="active"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Contributors</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html" class="active"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Contributors</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,132 +163,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#the-arrow-buffer" id="the-arrow-buffer">The Arrow Buffer</a></h1>
-<p>The <a href="https://docs.rs/arrow/3.0.0/arrow/buffer/struct.Buffer.html">Buffer</a> is the
-main data container in the Arrow Array. Depending on the type of array that is
-being created, it can have one or many buffers holding information. So, this
-means that an array could include a combination of a values buffer, a validity
-bitmap buffer and an offset buffer.</p>
-<p>However, all buffers are the same. A buffer is the representation of a
-continuous memory region that is used to store data in memory. According to the
-Arrow specification a buffer should be aligned and padded using multiples of 8
-or 64 bytes.</p>
-<p>To see how a buffer looks in Rust lets create one.</p>
-<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
-
-fn main() {
-    let buffer_u8 = Buffer::from(&amp;[0u8, 1, 2, 3, 4, 5]);
-    println!(&quot;{:?}&quot;, buffer_u8);
-}
-</code></pre></pre>
-<blockquote>
-<p><strong>Note</strong>. Don't use the &quot;Run this code&quot; button. The Arrow crate is not loaded
-in the book and it will produce an error</p>
-</blockquote>
-<blockquote>
-<p><strong>Tip</strong>. If you use <strong>&quot;{:#?}&quot;</strong> in the println! macro you should see a
-formated version of the struct in your screen</p>
-</blockquote>
-<p>If you printed the previous code you should see something like this:</p>
-<pre><code class="language-json">Buffer { 
-    data: Bytes { 
-        ptr: 0x1dcab5b5400, 
-        len: 6,
-        data: [0, 1, 2, 3, 4, 5] 
-    }, 
-    offset: 0 
-}
-</code></pre>
-<p>As it can be seen, a buffer is made out of a Bytes structure and an offset. The
-Bytes structure is used to represent the data in memory by using a pointer, the
-number of elements it has, and the data itself. The offset is used by the arrays
-to indicate an offset for reading the stored values. By creating a buffer the
-constructor has allocated in memory enough bytes to store the supplied values
-and it has given a pointer to access the stored data. It should also be noted
-that the resulting buffer is inmutable.</p>
-<p>The normal usage of the Arrays don't require you to use pointer arithmetic to
-access the data in the buffer, but as a learning experience lets use the pointer
-to access the data in memory.</p>
-<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
-
-fn main() {
-    let buffer_u8 = Buffer::from(&amp;[0u8, 1, 2, 3, 4, 5]);
-    
-    unsafe {
-        for i in 0..5 {
-            println!(&quot;{}&quot;, *buffer_u8.as_ptr().add(i));
-        }
-    }
-}
-</code></pre></pre>
-<p>If you are following the examples, you should see printed the values 0 to 5 in
-you screen. </p>
-<p>Now lets change the type of elements the buffer is holding to u32 and see what
-happens to the buffer.</p>
-<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
-use arrow::datatypes::ToByteSlice;
-
-fn main() {
-    let buffer_u32 = Buffer::from(&amp;[0u32, 1, 2, 3, 4, 5].to_byte_slice());
-    
-    println!(&quot;{:?}&quot;, buffer_u32);
-}
-</code></pre></pre>
-<p>In this case a new element is introduced to the code; the <strong>ToByteSlice</strong> trait.
-The ToByteSlice trait exposes the method to_byte_slice for <em>[T]</em> and <em>T</em> which
-allows us to allocate the required memory using u8 as the base unit. This means
-that now each <em>u32</em> number will be represented by four <em>u8</em> numbers. That can be
-seen better by printing the new buffer:</p>
-<pre><code class="language-json">Buffer { 
-    data: Bytes { 
-        ptr: 0x1ad7d5ffb00,
-        len: 24,
-        data: [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0, 5, 0, 0, 0] 
-    },
-    offset: 0
-}
-</code></pre>
-<p>Now the length of the buffer is 24, even though we stored only 6 digits, and
-there are extra zeros in the data array. What happened is that each of the u32
-numbers is represented using multiples of u8 numbers. Now each number in the
-array is padded and aligned. Neat isn't it?. </p>
-<blockquote>
-<p><strong>Tip</strong>. Try increasing the number of values used to create the buffer to see
-what happens to the len. Also, try using numbers larger than 255 to see
-how the number representation changes in the data array.</p>
-</blockquote>
-<p>Again, as a learning experience, you can use the raw pointer to access all the
-elements from the buffer. However, since the buffer pointer is a <code>*const u8</code>
-you need to cast it to a <code>*const u32</code>.</p>
-<pre><pre class="playground"><code class="language-rust">use arrow::buffer::Buffer;
-use arrow::datatypes::ToByteSlice;
-
-fn main() {
-    let buffer_u32 = Buffer::from(&amp;[0u32, 1, 2, 3, 4, 5].to_byte_slice());
-    
-    let ptr_32 = buffer_u32.as_ptr() as *const u32;
-    unsafe {
-        for i in 0..6 {
-            println!(&quot;{}&quot;, *ptr_32.add(i));
-        }
-    }
-}
-</code></pre></pre>
-<p>With your newly earned understanding of how a buffers works, lets start creating
-Arrow arrays.</p>
+                        <h1><a class="header" href="#reading-csv-files" id="reading-csv-files">Reading CSV files</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="arrays.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="reading_files.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="arrays_data.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="reading_json.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -300,13 +188,13 @@ Arrow arrays.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="arrays.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="reading_files.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="arrays_data.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="reading_json.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
