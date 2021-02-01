@@ -337,10 +337,10 @@ way is that we can implement a unique function that converts or downcasts the
 returned array into each of the possible Arrow arrays types.</p>
 <p>In order to be able to downcast the Array to the desired array type we are going
 to take advantage of the previously mentioned fact that the <strong>Array</strong> trait
-implements the <strong>AsAny</strong> trait for all the Arrow array types. And to make it
-even more flexible we are going to help ourselves by writing all the helper
-functions required for each type we are going the use a macro to do the job for
-us.</p>
+implements the <strong>AsAny</strong> trait for all the Arrow array types. This means that we
+will have to implement a function that downcasts an array based on the type of
+data stored in it. To make this repetitive processes not so tedious, we are
+going to help ourselves by writing these functions using a handy macro.</p>
 <p>Have a look at the implementation of the enum ScalarValue</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
