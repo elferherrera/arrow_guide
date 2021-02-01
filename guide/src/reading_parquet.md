@@ -193,10 +193,10 @@ returned array into each of the possible Arrow arrays types.
 
 In order to be able to downcast the Array to the desired array type we are going
 to take advantage of the previously mentioned fact that the **Array** trait
-implements the **AsAny** trait for all the Arrow array types. And to make it
-even more flexible we are going to help ourselves by writing all the helper
-functions required for each type we are going the use a macro to do the job for
-us.
+implements the **AsAny** trait for all the Arrow array types. This means that we
+will have to implement a function that downcasts an array based on the type of
+data stored in it. To make this repetitive processes not so tedious, we are
+going to help ourselves by writing these functions using a handy macro.
 
 Have a look at the implementation of the enum ScalarValue
 
