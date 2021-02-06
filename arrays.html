@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html" class="active"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Contributors</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html" class="active"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -175,19 +175,66 @@ and loaded you can shared it across several processes using a RecordBatch. </p>
 <p>In Rust, the Array trait is the building block for all the available types of 
 data containers. These include:</p>
 <ul>
-<li>BinaryArray</li>
-<li>DictionaryArray</li>
-<li>FixedSizeBinaryArray</li>
-<li>FixedSizeListArray</li>
-<li>LargeBinaryArray</li>
-<li>LargeListArray</li>
-<li>LargeStringArray</li>
-<li>ListArray</li>
-<li>PrimitiveArray</li>
-<li>StringArray</li>
-<li>StructArray</li>
-<li>NullArray</li>
-<li>UnionArray</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.BinaryArray.html">BinaryArray</a>
+An array where each element is a byte whose maximum length is represented by a
+i32. </p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.DictionaryArray.html">DictionaryArray</a>
+A dictionary array where each element is a single value indexed by an integer
+key</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.FixedSizeBinaryArray.html">FixedSizeBinaryArray</a>
+A type of FixedSizeListArray whose elements are binaries.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.FixedSizeBinaryArray.html">FixedSizeListArray</a>
+A type of FixedSizeListArray whose elements are binaries.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeBinaryArray.html">LargeBinaryArray</a>
+An array where each element is a byte whose maximum length is represented by a
+i64.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListArray.html">LargeListArray</a>
+A list array where each element is a variable-sized sequence of values with
+the same type whose memory offsets between elements are represented by a i64.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html">LargeStringArray</a>
+An array where each element is a variable-sized sequence of bytes representing
+a string whose maximum length (in bytes) is represented by a i64.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html">ListArray</a> A
+list array where each element is a variable-sized sequence of values with the
+same type whose memory offsets between elements are represented by a i32.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>
+Array whose elements are of primitive types.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html">StringArray</a>
+An array where each element is a variable-sized sequence of bytes representing
+a string whose maximum length (in bytes) is represented by a i32.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.StructArray.html">StructArray</a>
+A nested array type where each child (called field) is represented by a
+separate array.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.NullArray.html">NullArray</a> An
+Array where all elements are nulls</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.UnionArray.html">UnionArray</a>
+An Array that can represent slots of varying types.</p>
+</li>
 </ul>
 <p>Each of these containers follow a set of rules in order to define some sort of
 behaviour. For example, a PrimitiveArray is made out of elements of the same

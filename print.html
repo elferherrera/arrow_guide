@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Contributors</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -261,19 +261,66 @@ and loaded you can shared it across several processes using a RecordBatch. </p>
 <p>In Rust, the Array trait is the building block for all the available types of 
 data containers. These include:</p>
 <ul>
-<li>BinaryArray</li>
-<li>DictionaryArray</li>
-<li>FixedSizeBinaryArray</li>
-<li>FixedSizeListArray</li>
-<li>LargeBinaryArray</li>
-<li>LargeListArray</li>
-<li>LargeStringArray</li>
-<li>ListArray</li>
-<li>PrimitiveArray</li>
-<li>StringArray</li>
-<li>StructArray</li>
-<li>NullArray</li>
-<li>UnionArray</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.BinaryArray.html">BinaryArray</a>
+An array where each element is a byte whose maximum length is represented by a
+i32. </p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.DictionaryArray.html">DictionaryArray</a>
+A dictionary array where each element is a single value indexed by an integer
+key</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.FixedSizeBinaryArray.html">FixedSizeBinaryArray</a>
+A type of FixedSizeListArray whose elements are binaries.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.FixedSizeBinaryArray.html">FixedSizeListArray</a>
+A type of FixedSizeListArray whose elements are binaries.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeBinaryArray.html">LargeBinaryArray</a>
+An array where each element is a byte whose maximum length is represented by a
+i64.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListArray.html">LargeListArray</a>
+A list array where each element is a variable-sized sequence of values with
+the same type whose memory offsets between elements are represented by a i64.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html">LargeStringArray</a>
+An array where each element is a variable-sized sequence of bytes representing
+a string whose maximum length (in bytes) is represented by a i64.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html">ListArray</a> A
+list array where each element is a variable-sized sequence of values with the
+same type whose memory offsets between elements are represented by a i32.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>
+Array whose elements are of primitive types.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html">StringArray</a>
+An array where each element is a variable-sized sequence of bytes representing
+a string whose maximum length (in bytes) is represented by a i32.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.StructArray.html">StructArray</a>
+A nested array type where each child (called field) is represented by a
+separate array.</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.NullArray.html">NullArray</a> An
+Array where all elements are nulls</p>
+</li>
+<li>
+<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.UnionArray.html">UnionArray</a>
+An Array that can represent slots of varying types.</p>
+</li>
 </ul>
 <p>Each of these containers follow a set of rules in order to define some sort of
 behaviour. For example, a PrimitiveArray is made out of elements of the same
@@ -332,7 +379,7 @@ number of elements it has, and the data itself. The offset is used by the arrays
 to indicate an offset for reading the stored values. By creating a buffer the
 constructor has allocated in memory enough bytes to store the supplied values
 and it has given a pointer to access the stored data. It should also be noted
-that the resulting buffer is inmutable.</p>
+that the resulting buffer is immutable.</p>
 <p>The normal usage of the Arrays don't require you to use pointer arithmetic to
 access the data in the buffer, but as a learning experience lets use the pointer
 to access the data in memory.</p>
@@ -607,16 +654,16 @@ implementation we have variable size lists, fixed size lists and structs.</p>
 <p>A variable size list is used to represent arrays that are made of variable size
 lists. In Rust we have the next containers to create variable size lists:</p>
 <ul>
-<li>ListArray</li>
-<li>StringArray</li>
-<li>BinaryArray</li>
-<li>LargeListArray</li>
-<li>LargeStringArray</li>
-<li>LargeBinaryArray</li>
+<li><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html">ListArray</a></li>
+<li><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html">StringArray</a></li>
+<li><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.BinaryArray.html">BinaryArray</a></li>
+<li><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListArray.html">LargeListArray</a></li>
+<li><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html">LargeStringArray</a></li>
+<li><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeBinaryArray.html">LargeBinaryArray</a></li>
 </ul>
 <blockquote>
 <p><strong>Note</strong>. The difference between the Large and Normal arrays is the type of
-datatype offset used to align the space between elemets. In the normal
+datatype offset used to align the space between elements. In the normal
 arrays the offset is represented using  a i32 and in the large list a i64 is
 used.</p>
 </blockquote>
@@ -956,6 +1003,399 @@ a columnar format, the dataframe is stored in memory in a very efficient way.</p
 <p>In the next chapter we are going to talk about the RecordBatch and how it can 
 be used to share data between processes.</p>
 <h1><a class="header" href="#the-recordbatch" id="the-recordbatch">The RecordBatch</a></h1>
+<p>A
+<a href="https://docs.rs/arrow/3.0.0/arrow/record_batch/struct.RecordBatch.html">RecordBatch</a>
+is the last piece of the Arrow crate implementation. It could be said that is
+the main goal of the whole Arrow specification; a structure that holds together
+data and the metadata that describes it.</p>
+<p>Have a look again at the image we saw in the introduction chapter.</p>
+<p><img src="images/recordbatch.png" alt="Shared" /></p>
+<p>Let us imagine that we are developing a service that, after executing a query,
+returns formatted data with the requested information. For this service to be
+efficient transferring data, the RecordBatch is an integral piece of the
+process. Since each parcel of data contains all the information required to be
+read and processed, any process receiving the data that <strong>&quot;speaks&quot;</strong> Arrow can
+take the collected data and work on it immediately. There is no cost encoding or
+decoding each parcel, it can be worked on it as soon as it is received.</p>
+<p>We are going to cover how to transfer data in more detail in the <strong>IPC
+chapter</strong>, but for the moment just keep in mind that a RecordBatch is one of the
+keys for efficient data transfer.</p>
+<h2><a class="header" href="#building-a-recordbatch" id="building-a-recordbatch">Building a RecordBatch</a></h2>
+<p>We will begin our exploration into the RecordBatch with an small example. In
+this example we are going to create a record that will contain two columns; an
+index column and a fruits column. </p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::Arc;
+
+use arrow::{
+    array::{Int32Array, StringArray},
+    datatypes::{DataType, Field, Schema},
+    record_batch::RecordBatch,
+};
+
+fn main() {
+    let schema = Schema::new(vec![
+        Field::new(&quot;index&quot;, DataType::Int32, false),
+        Field::new(&quot;fruits&quot;, DataType::Utf8, false),
+    ]);
+
+    let a = Int32Array::from(vec![1, 2, 3, 4, 5]);
+    let b = StringArray::from(vec![&quot;apple&quot;, &quot;banana&quot;, &quot;pineapple&quot;, &quot;melon&quot;, &quot;pear&quot;]);
+
+    let record_batch =
+        RecordBatch::try_new(Arc::new(schema), vec![Arc::new(a), Arc::new(b)]).unwrap();
+
+    println!(&quot;{:#?}&quot;, record_batch);
+}
+</code></pre></pre>
+<p>If you run the example you should get something like this:</p>
+<pre><code class="language-json">RecordBatch {
+    schema: Schema {
+        fields: [
+            Field {
+                name: &quot;index&quot;,
+                data_type: Int32,
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+            Field {
+                name: &quot;fruits&quot;,
+                data_type: Utf8,
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+        ],
+        metadata: {},
+    },
+    columns: [
+        PrimitiveArray&lt;Int32&gt;
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+        StringArray
+        [
+          &quot;apple&quot;,
+          &quot;banana&quot;,
+          &quot;pineapple&quot;,
+          &quot;melon&quot;,
+          &quot;pear&quot;,
+        ],
+    ],
+}
+</code></pre>
+<h3><a class="header" href="#the-schema" id="the-schema">The Schema</a></h3>
+<p>Now, let us inspect the pieces we used to create the RecordBatch. The first new
+element that we will encounter is going to be the
+<a href="https://docs.rs/arrow/3.0.0/arrow/datatypes/struct.Schema.html">Schema</a> struct.</p>
+<pre><code class="language-rust ignore">    let schema = Schema::new(vec![
+        Field::new(&quot;index&quot;, DataType::Int32, false),
+        Field::new(&quot;fruits&quot;, DataType::Utf8, false),
+    ]);
+</code></pre>
+<p>The Schema is used to describe the metadata that our little RecordBatch is going
+to hold, and it is going to be our first source of information for the stored
+data. Inside the Schema, each column has different properties that make them
+unique, e.g. name, data type, etc. In order to encapsulate this information we
+need to use the
+<a href="https://docs.rs/arrow/3.0.0/arrow/datatypes/struct.Field.html">Field</a> struct.</p>
+<p>Each Field in the Schema is responsible for holding the name of the column, the
+data type, if the column is nullable, and additional metadata. The Field
+metadata can be anything extra that we may want to store and that will be useful
+when reading the data from the column.</p>
+<p>The Schema struct also has the option to store extra metadata. For example, we
+can store the number of rows a column has for future reference, or the name of
+the file where the data comes from. Have a look to the next example:</p>
+<pre><pre class="playground"><code class="language-rust">use std::collections::HashMap;
+use arrow::datatypes::{DataType, Field, Schema};
+
+fn main() {
+    // Creating a schema with metadata
+    let field_a = Field::new(&quot;a&quot;, DataType::Int64, false);
+    let field_b = Field::new(&quot;b&quot;, DataType::Boolean, false);
+
+    let mut metadata: HashMap&lt;String, String&gt; = HashMap::new();
+    metadata.insert(&quot;row_count&quot;.to_string(), &quot;100&quot;.to_string());
+    metadata.insert(&quot;file&quot;.to_string(), &quot;example.csv&quot;.to_string());
+
+    let schema = Schema::new_with_metadata(vec![field_a, field_b], metadata);
+
+    println!(&quot;{:#?}&quot;, schema);
+}
+</code></pre></pre>
+<h3><a class="header" href="#the-recordbatch-data" id="the-recordbatch-data">The RecordBatch data</a></h3>
+<p>The next piece of the RecordBatch is the data itself. This data comes from Arrow
+arrays created using the methods we saw in previous sections.</p>
+<pre><code class="language-rust ignore">    let a = Int32Array::from(vec![1, 2, 3, 4, 5]);
+    let b = StringArray::from(vec![&quot;apple&quot;, &quot;banana&quot;, &quot;pineapple&quot;, &quot;melon&quot;, &quot;pear&quot;]);
+
+    let record_batch =
+        RecordBatch::try_new(Arc::new(schema), vec![Arc::new(a), Arc::new(b)]).unwrap();
+</code></pre>
+<p>From this snippet we can see that two columns are created using the From trait
+implemented for Int32Array and StringArray.</p>
+<p>The RecordBatch is finally constructed by passing the defined schema and a
+vector of the created data. However, it should be noticed that we are using an
+atomic reference (Arc) to the data and not the data itself, making the the
+RecordBatch thread safe and the data zero copy. </p>
+<h2><a class="header" href="#constructing-from-an-structarray" id="constructing-from-an-structarray">Constructing from an StructArray</a></h2>
+<p>Probably those that have just read the previous chapter would have noticed that
+a RecordBatch is very similar to an StructArray, and you are right. A
+StructArray is a collection of Arrow arrays identified using Field structs. Both
+share a similar data structure, and because of this similarity we can construct
+a RecordBatch from them.</p>
+<p>Have a look at the next code:</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::Arc;
+
+use arrow::{
+    array::{ArrayRef, BooleanArray, Int32Array, StructArray},
+    datatypes::{DataType, Field, Schema},
+    record_batch::RecordBatch,
+};
+
+fn main() {
+    let index = Arc::new(Int32Array::from(vec![0, 1, 2, 3]));
+    let boolean_array = Arc::new(BooleanArray::from(vec![false, false, true, true]));
+    let int_array = Arc::new(Int32Array::from(vec![42, 28, 19, 31]));
+
+    let struct_array = StructArray::from(vec![
+        (
+            Field::new(&quot;index&quot;, DataType::Int32, false),
+            index as ArrayRef,
+        ),
+        (
+            Field::new(&quot;col_1&quot;, DataType::Int32, false),
+            int_array as ArrayRef,
+        ),
+        (
+            Field::new(&quot;col_2&quot;, DataType::Boolean, false),
+            boolean_array as ArrayRef,
+        ),
+    ]);
+
+    let record_batch = RecordBatch::from(&amp;struct_array);
+    println!(&quot;{:#?}&quot;, record_batch);
+}
+</code></pre></pre>
+<p>The output should look like this:</p>
+<pre><code class="language-json">RecordBatch {
+    schema: Schema {
+        fields: [
+            Field {
+                name: &quot;index&quot;,
+                data_type: Int32,
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+            Field {
+                name: &quot;col_1&quot;,
+                data_type: Int32,
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+            Field {
+                name: &quot;col_2&quot;,
+                data_type: Boolean,
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+        ],
+        metadata: {},
+    },
+    columns: [
+        PrimitiveArray&lt;Int32&gt;
+        [
+          0,
+          1,
+          2,
+          3,
+        ],
+        PrimitiveArray&lt;Int32&gt;
+        [
+          42,
+          28,
+          19,
+          31,
+        ],
+        BooleanArray
+        [
+          false,
+          false,
+          true,
+          true,
+        ],
+    ],
+}
+</code></pre>
+<p>As you can see we can construct a RecordBatch easily from the Struct array. This
+is because the <strong>From</strong> trait is implemented for the RecordBatch. </p>
+<h2><a class="header" href="#nested-structures" id="nested-structures">Nested structures</a></h2>
+<p>To finish this section, we are going to see how to create a nested structure
+using the tools that can be found within the RecorBatch struct. As you will see
+the procedure is fairly straight forward, all we have to do is to define the
+StructArray with all its columns and then add it to the schema as it is another
+column of the RecordBatch.</p>
+<p>The next snippet of code shows an example of how a nested structure could look
+by introducing a Struct Array as one of the columns in the RecordBatch. The
+resulting RecordBatch will have two columns; one called id and a another called
+nested.</p>
+<pre><pre class="playground"><code class="language-rust">use std::sync::Arc;
+
+use arrow::{
+    array::{Array, Float64Array, Int32Array, StringArray, StructArray},
+    datatypes::{DataType, Field, Schema},
+    record_batch::RecordBatch,
+};
+
+fn main() {
+    let schema = Schema::new(vec![
+        Field::new(&quot;id&quot;, DataType::Int32, false),
+        Field::new(
+            &quot;nested&quot;,
+            DataType::Struct(vec![
+                Field::new(&quot;a&quot;, DataType::Utf8, false),
+                Field::new(&quot;b&quot;, DataType::Float64, false),
+                Field::new(&quot;c&quot;, DataType::Float64, false),
+            ]),
+            false,
+        ),
+    ]);
+
+    let id = Int32Array::from(vec![1, 2, 3, 4, 5]);
+
+    let nested = StructArray::from(vec![
+        (
+            Field::new(&quot;a&quot;, DataType::Utf8, false),
+            Arc::new(StringArray::from(vec![&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;])) as Arc&lt;dyn Array&gt;,
+        ),
+        (
+            Field::new(&quot;b&quot;, DataType::Float64, false),
+            Arc::new(Float64Array::from(vec![1.1, 2.2, 3.3, 4.4, 5.5])),
+        ),
+        (
+            Field::new(&quot;c&quot;, DataType::Float64, false),
+            Arc::new(Float64Array::from(vec![2.2, 3.3, 4.4, 5.5, 6.6])),
+        ),
+    ]);
+
+    let record_batch =
+        RecordBatch::try_new(Arc::new(schema), vec![Arc::new(id), Arc::new(nested)]).unwrap();
+
+    println!(&quot;{:#?}&quot;, record_batch);
+}
+
+</code></pre></pre>
+<p>After running the previous code you should see something like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>RecordBatch {
+    schema: Schema {
+        fields: [
+            Field {
+                name: &quot;id&quot;,
+                data_type: Int32,
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+            Field {
+                name: &quot;nested&quot;,
+                data_type: Struct(
+                    [
+                        Field {
+                            name: &quot;a&quot;,
+                            data_type: Utf8,
+                            nullable: false,
+                            dict_id: 0,
+                            dict_is_ordered: false,
+                            metadata: None,
+                        },
+                        Field {
+                            name: &quot;b&quot;,
+                            data_type: Float64,
+                            nullable: false,
+                            dict_id: 0,
+                            dict_is_ordered: false,
+                            metadata: None,
+                        },
+                        Field {
+                            name: &quot;c&quot;,
+                            data_type: Float64,
+                            nullable: false,
+                            dict_id: 0,
+                            dict_is_ordered: false,
+                            metadata: None,
+                        },
+                    ],
+                ),
+                nullable: false,
+                dict_id: 0,
+                dict_is_ordered: false,
+                metadata: None,
+            },
+        ],
+        metadata: {},
+    },
+    columns: [
+        PrimitiveArray&lt;Int32&gt;
+        [
+          1,
+          2,
+          3,
+          4,
+          5,
+        ],
+        StructArray
+        [
+        -- child 0: &quot;a&quot; (Utf8)
+        StringArray
+        [
+          &quot;a&quot;,
+          &quot;b&quot;,
+          &quot;c&quot;,
+          &quot;d&quot;,
+          &quot;e&quot;,
+        ]
+        -- child 1: &quot;b&quot; (Float64)
+        PrimitiveArray&lt;Float64&gt;
+        [
+          1.1,
+          2.2,
+          3.3,
+          4.4,
+          5.5,
+        ]
+        -- child 2: &quot;c&quot; (Float64)
+        PrimitiveArray&lt;Float64&gt;
+        [
+          2.2,
+          3.3,
+          4.4,
+          5.5,
+          6.6,
+        ]
+        ],
+    ],
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>As you can see, a RecordBatch is a very powerful structure that will let us put
+together the information we want to process or share. We are going to keep using
+it for different examples along this book.</p>
 <h1><a class="header" href="#array-operations" id="array-operations">Array operations</a></h1>
 <p>The arrow crate defines several operations that can be performed on arrays.
 These include comparisons, aggregations, arithmetic operations, concatenations,
@@ -1520,6 +1960,7 @@ in this example. It aims to become a Pandas analogue in Rust. We are
 going to discuss Datafusion in future chapters but before that, we are going to
 talk about IPC (interprocess communication) and how Arrow is used to share data
 between processes. </p>
+<h1><a class="header" href="#contributors" id="contributors">Contributors</a></h1>
 
                     </main>
 
