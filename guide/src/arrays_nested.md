@@ -11,15 +11,15 @@ implementation we have variable size lists, fixed size lists and structs.
 A variable size list is used to represent arrays that are made of variable size
 lists. In Rust we have the next containers to create variable size lists:
 
-- ListArray
-- StringArray
-- BinaryArray
-- LargeListArray
-- LargeStringArray
-- LargeBinaryArray
+- [ListArray](https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html)
+- [StringArray](https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html)
+- [BinaryArray](https://docs.rs/arrow/3.0.0/arrow/array/type.BinaryArray.html)
+- [LargeListArray](https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListArray.html)
+- [LargeStringArray](https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html)
+- [LargeBinaryArray](https://docs.rs/arrow/3.0.0/arrow/array/type.LargeBinaryArray.html)
 
 > **Note**. The difference between the Large and Normal arrays is the type of
-> datatype offset used to align the space between elemets. In the normal
+> datatype offset used to align the space between elements. In the normal
 > arrays the offset is represented using  a i32 and in the large list a i64 is
 > used.
 
