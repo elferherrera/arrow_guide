@@ -46,7 +46,7 @@ number of elements it has, and the data itself. The offset is used by the arrays
 to indicate an offset for reading the stored values. By creating a buffer the
 constructor has allocated in memory enough bytes to store the supplied values
 and it has given a pointer to access the stored data. It should also be noted
-that the resulting buffer is inmutable.
+that the resulting buffer is immutable.
 
 The normal usage of the Arrays don't require you to use pointer arithmetic to
 access the data in the buffer, but as a learning experience lets use the pointer
