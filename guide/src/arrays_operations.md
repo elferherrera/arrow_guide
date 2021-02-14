@@ -1,4 +1,4 @@
-# Array operations
+# Arrow Kernel  s
 
 The arrow crate defines several operations that can be performed on arrays.
 These include comparisons, aggregations, arithmetic operations, concatenations,

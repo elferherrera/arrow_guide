@@ -49,7 +49,9 @@ are different datatypes next to each other; in this case a long, a date and a
 string. Each of these datatypes will have different memory requirements (for
 example, 8 bytes, 16 bytes or 32 bytes).
 
-![Columnar](images/simd.png)
+<p align="center">
+  <img src="images/simd.png">
+</p>
 
 By changing the in memory representation of the file to a columnar form (image
 above, right), the in-memory arrangement of the data becomes more efficient.
@@ -69,7 +71,9 @@ and extract information. Or, perhaps Spark is used to create a pipeline that
 reads the database in order to create a stream of data to feed a dashboard. The
 copy and convert process may end up looking like this:
 
-![Copy](images/copy.png)
+<p align="center">
+  <img src="images/copy.png">
+</p>
 
 As it can be seen, the data is copied and converted several times. This happens
 every time a process needs to query the data. 
@@ -79,7 +83,9 @@ doesn't need to be copied and converted. There can be a single in-memory data
 representation that can be used to feed all the required processes. The data
 sharing can be done regarding the language that is used.
 
-![Shared](images/shared.png)
+<p align="center">
+  <img src="images/shared.png">
+</p>
 
 And thanks to this standardization the data can also be shared with processes
 that don't share the same memory. By creating a data server, packets of data
@@ -87,7 +93,9 @@ with known structure (RecordBatch) can be sent across computers (or pods) and
 the receiving process doesn't need to spend time coding and decoding the data
 to a known format. The data is ready to be used once its being received.
 
-![Shared](images/recordbatch.png)
+<p align="center">
+  <img src="images/recordbatch.png">
+</p>
 
 ## The Rust Arrow crate
 

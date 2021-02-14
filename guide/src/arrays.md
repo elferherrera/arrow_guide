@@ -4,7 +4,9 @@ The Array is the center piece of the Rust Apache Arrow implementation. An array
 is defined by different pieces of data and metadata, as it can be seen in the
 next image.
 
-![Layout](images/layout.png)
+<p align="center">
+  <img src="images/layout.png">
+</p>
 
 From the image it can be seen that an Array is composed of one or more buffers,
 a validity bitmap and a datatype definition. By using an Arrow Array, you can

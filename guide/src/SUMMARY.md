@@ -8,17 +8,16 @@
     - [Primitive array](arrays_primitive.md)
     - [Nested arrays](arrays_nested.md)
     - [RecordBatch](arrays_recordbatch.md)
-    - [Operations with arrays](arrays_operations.md)
+    - [Arrow Kernels](arrays_operations.md)
 
-- [Reading files](reading_files.md)
-    - [Reading CSV files](reading_csv.md)
-    - [Reading JSON files](reading_json.md)
-    - [Reading Parquet files](reading_parquet.md)
-
-- [IPC and RecordBatch]()
-    - [Creating a RecordBatch]()
+- [Arrow IPC](ipc_intro.md)
     - [Detour: FlatBuffers]()
     - [Sharing data]()
+
+- [Reading files](reading_files.md)
+    - [Reading CSV files]()
+    - [Reading JSON files]()
+    - [Reading Parquet files](reading_parquet.md)
 
 - [Arrow Flight]()
     - [Setting up a Server]()
