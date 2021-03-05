@@ -1,0 +1,13 @@
+namespace MyStruct.Schema;
+
+table Field {
+    name:string;
+    dtype:string;
+}
+
+table Schema {
+    rows:long;
+    fields:[Field];
+}
+
+root_type Schema;

@@ -1,5 +1,9 @@
 /target
+**/target
 guide/book
 gh-pages/
 .vscode
 data/
+
+**/examples/simple_schema/src/ipc_schema_generated.rs
+**/examples/simple_schema/Cargo.lock

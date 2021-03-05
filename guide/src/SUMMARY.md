@@ -11,7 +11,7 @@
     - [Arrow Kernels](arrays_operations.md)
 
 - [Arrow IPC](ipc_intro.md)
-    - [Detour: FlatBuffers]()
+    - [Detour: FlatBuffers](ipc_flatbuffers.md)
     - [Sharing data]()
 
 - [Reading files](reading_files.md)

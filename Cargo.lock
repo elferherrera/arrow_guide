@@ -38,8 +38,9 @@ checksum = "23b62fc65de8e4e7f52534fb52b0f3ed04746ae267519eef2a83941e8085068b"
 
 [[package]]
 name = "arrow"
-version = "4.0.0-SNAPSHOT"
-source = "git+https://github.com/apache/arrow#2fd5857c625874845ce02569821ee54d8ca9b9d2"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d74faf1b951f686da25c0cf575c6f654beb3fd461fa3caabd2dbd68fe715513"
 dependencies = [
  "cfg_aliases",
  "chrono",
@@ -63,6 +64,7 @@ version = "0.1.0"
 dependencies = [
  "arrow",
  "doc-comment",
+ "flatbuffers",
  "parquet",
 ]
 
@@ -208,9 +210,9 @@ checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
 
 [[package]]
 name = "flatbuffers"
-version = "0.8.1"
+version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40c2d2ec7bb8b17de23b328a842c84ad6a42b65d4bb6b863d1916cb4e09f8774"
+checksum = "63b5b0f949bdb25c077c83184ac689ae38ae392683d4c71e98be9736db66e94c"
 dependencies = [
  "bitflags",
  "smallvec",
@@ -474,8 +476,9 @@ dependencies = [
 
 [[package]]
 name = "parquet"
-version = "4.0.0-SNAPSHOT"
-source = "git+https://github.com/apache/arrow#2fd5857c625874845ce02569821ee54d8ca9b9d2"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2e7af8b51dcae8625a26d55387b17ff922436a78cdf57eed630d546e9924b36f"
 dependencies = [
  "arrow",
  "base64",

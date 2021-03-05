@@ -15,8 +15,11 @@ fn main() {
 fn handle_connection(stream: TcpStream) {
     let ipc_reader = StreamReader::try_new(stream).unwrap();
     println!("{:?}", ipc_reader.schema());
+    println!("{:?}", ipc_reader.schema().metadata());
 
     for batch in ipc_reader {
+        let batch = batch.unwrap();
         println!("{:?}", batch);
+        println!("{:?}", batch.schema().metadata());
     }
 }
