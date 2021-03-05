@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Detour: FlatBuffers - Apache Arrow [Rust]</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Arrow Kernels</a></li></ol></li><li class="chapter-item expanded "><a href="ipc_intro.html"><strong aria-hidden="true">3.</strong> Arrow IPC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ipc_flatbuffers.html" class="active"><strong aria-hidden="true">3.1.</strong> Detour: FlatBuffers</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">4.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">4.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Apache Arrow [Rust]</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#detour-flatbuffers" id="detour-flatbuffers">Detour: Flatbuffers</a></h1>
+<p>Before we dive into the IPC and how data is shared between multiple process
+using Arrow's IPC, it is a good idea to get some understanding of what
+Flatbuffers is and how it is used to serialize and deserialize data.</p>
+<p>If you are familiar with data serialization, then feel free to skip this chapter.
+We won't be discussing anything related to Arrow's IPC. This chapter will work as
+a basic introduction for those that are not familiar with the process and it will
+work as a foundation for understanding how data sharing works in Arrow.</p>
+<h2><a class="header" href="#what-is-data-serialization" id="what-is-data-serialization">What is data serialization?</a></h2>
+<p>Data serialization is the process of converting an object located in memory to a
+representation that can be understood by other processes, and it is done by
+converting the object to a series of bytes following some sort of contract that
+all processes understand.</p>
+<p>So, imagine that we have a process that needs to send data to another process,
+it could be via disk or wire, it doesn't matter at the moment. What matters is
+that the data has to be in a format that both understand. Now, if the data that
+needs to be sent is an integer, like 20, then the producing server could send or
+store &quot;10100&quot; and since the receiver knows that the bytes that is receiving
+represent an integer then it can translate it back to 20. This processes was
+trivial for an integer, but it can become cumbersome when there are complex
+structures that need to be sent/receive.</p>
+<p>This is why the serialization protocols where created. In Rust, we can use Serde
+to serialize/deserialize almost any structure under the sun. However, Arrow IPC
+uses Flatbuffers because it offers advantages that are beneficial to Arrow's IPC.</p>
+<h2><a class="header" href="#flatbuffers" id="flatbuffers">Flatbuffers</a></h2>
+<p>Flatbuffers is an open source
+<a href="https://google.github.io/flatbuffers/index.html#flatbuffers_overview">project</a>
+that was originally created for game development and other performance-critical
+applications. It is fast, memory efficient, and flexible. However, one of its
+best features is the fact that once an object has been serialized, the process
+reading the data doesn't need to unpack it back, it can extract information
+as soon as it has read the buffer.</p>
+<p>Now, let us create a small example of data serialization by constructing a
+generic struct and sharing the serialized data using a TCP connection using rust
+std::net functions.</p>
+<h3><a class="header" href="#installing-the-flatc-compiler" id="installing-the-flatc-compiler">Installing the flatc compiler</a></h3>
+<p>Before you continue with the example you will need to install the flatc compiler. </p>
+<p>If you are in OSX you can use:</p>
+<pre><code>brew install flatbuffers
+</code></pre>
+<p>In ubuntu:</p>
+<pre><code>sudo apt install -y flatbuffers-compiler
+</code></pre>
+<p>and in Windows</p>
+<pre><code>choco install flatbuffers
+</code></pre>
+<p>Or you can also install it from the source following these
+<a href="https://google.github.io/flatbuffers/flatbuffers_guide_building.html">instructions</a></p>
+<h3><a class="header" href="#struct-serialization" id="struct-serialization">Struct serialization</a></h3>
+<p>In this example we are going to define a very simple schema that could represent
+a table, and that would be shared between different processes. For this example,
+the table schema definition will have a list of fields and each of these fields
+will be defined by a name and a type.</p>
+<p>To start you will need to create the Flatbuffer objects that define our tables.
+Write the next code in a file, lets call it Schema.fbs</p>
+<pre><code>namespace MyStruct.Schema;
+
+table Field {
+    name:string;
+    dtype:string;
+}
+
+table Schema {
+    rows:long;
+    fields:[Field];
+}
+
+root_type Schema;
+</code></pre>
+<p>As you can see we are creating two tables, Field and Schema. In Flatbuffers, a
+<strong>table</strong> is the way to define an object with multiple elements, and they can be
+composed of elements declared within the definition. In this case we are saying
+that a the table could have a certain number of rows and a list of Fields. </p>
+<blockquote>
+<p><strong>Note</strong>. The Flatbuffers specification has multiple types of labels that can
+be used to describe an object. For a detailed description of all the available
+types, you should have a lot at <a href="https://google.github.io/flatbuffers/flatbuffers_guide_writing_schema.html">how to write a
+schema</a>
+from the FlatBuffers project.</p>
+</blockquote>
+<p>Now it is time to create the Rust file that will help us serialize and
+deserialize the data. Run the next command using the file you created previously.</p>
+<pre><code>flatc --rust Schema.fbs
+</code></pre>
+<p>This should generate a rust file with the same name as the file with the
+Flatbuffer schema plus a <code>_generated.rs</code> postfix. Have a look at the file and
+marvel at all the object definitions the <code>flatc</code> command created for us.</p>
+<h4><a class="header" href="#creating-a-buffer" id="creating-a-buffer">Creating a buffer</a></h4>
+<p>Now comes the interesting part, the serialization of the struct. Lets start by
+creating a constructor using the flatbuffers crate:</p>
+<pre><code class="language-rust ignore">let mut builder = flatbuffers::FlatBufferBuilder::new_with_capacity(1024);
+</code></pre>
+<p>This builder will be in charge of creating the correct conversions between
+the rust objects and the Flatbuffer bytes representation.</p>
+<p>Using the builder we can create two Field objects that will be added to
+the mini table schema object we want to create:</p>
+<pre><code class="language-rust ignore">let field_1_name = builder.create_string(&quot;col_1&quot;);
+let field_1_dtype = builder.create_string(&quot;int&quot;);
+let field_1 = Field::create(
+    &amp;mut builder,
+    &amp;FieldArgs {
+        name: Some(field_1_name),
+        dtype: Some(field_1_dtype),
+    },
+);
+
+let field_2_name = builder.create_string(&quot;col_2&quot;);
+let field_2_dtype = builder.create_string(&quot;int&quot;);
+let field_2 = Field::create(
+    &amp;mut builder,
+    &amp;FieldArgs {
+        name: Some(field_2_name),
+        dtype: Some(field_2_dtype),
+    },
+);
+
+let fields = builder.create_vector(&amp;[field_1, field_2]);
+</code></pre>
+<p>The builder has helped us to convert the strings that represent the name and
+dtype for each of the fields that will be part of the main mini schema that
+represents our table. Also, since the table schema is expecting these fields to
+be stored in a Flatbuffer vector, we use the builder to create the required
+object for the final table schema.</p>
+<p>With all the information that defines the table schema converted we can create
+the final object. The new schema objet will look like this:</p>
+<pre><code class="language-rust ignore">let schema = Schema::create(
+    &amp;mut builder,
+    &amp;SchemaArgs {
+        rows: 100,
+        fields: Some(fields),
+    },
+);
+</code></pre>
+<p>The final stage of the serialization process is to create the bytes buffer
+with the serialized object. This step is done in the next lines:</p>
+<pre><code class="language-rust ignore">builder.finish(schema, None);
+let buf = builder.finished_data();
+</code></pre>
+<p>Pat your self in the back, we are finally done. The object is serialized and it
+is ready to be shared with other processes that require this information.</p>
+<h4><a class="header" href="#deserializing-the-buffer" id="deserializing-the-buffer">Deserializing the buffer</a></h4>
+<p>To finish this example we are going to recover the information in the buffer by
+reading the buffer using the <code>root_as_schema</code> function that was generated with
+the flatc compiler.</p>
+<pre><code class="language-rust ignore">let recovered_schema = root_as_schema(buf).unwrap();
+println!(&quot;{:?}&quot;, recovered_schema.rows());
+
+let recovered_fields = recovered_schema.fields().unwrap();
+for f in recovered_fields {
+    println!(&quot;{:?}&quot;, f.name());
+    println!(&quot;{:?}&quot;, f.dtype());
+}
+</code></pre>
+<p>As you can see, the serialization process is quite straight forward using the
+generated Flatbuffers objects, and the data deserialization is just as easy. The
+bytes received in the buffer don't need to be unpacked, and their information
+can be extracted soon as they are read. </p>
+<p>In conclusion, in this small example we created a buffer of bytes that could
+define a table with information about its fields. The resulting buffer is easy
+to share with other processes, as it can be stored to disc or it can be shared
+via a tcp stream. A similar process is done in the IPC Arrow module, obviously
+with larger and more complex data structures. The schema information from the
+RecordBatch is serialized to be written to any available stream, e.g. disk
+writer or tcp writer. In the next chapter we are going to describe in more
+detail how a RecordBatch is serialized to be consumed by other processes.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="ipc_intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="reading_files.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="ipc_intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="reading_files.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

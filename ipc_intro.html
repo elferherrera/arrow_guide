@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Arrays - Apache Arrow [Rust]</title>
+        <title>Arrow IPC - Apache Arrow [Rust]</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html" class="active"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Arrow Kernels</a></li></ol></li><li class="chapter-item expanded "><a href="ipc_intro.html"><strong aria-hidden="true">3.</strong> Arrow IPC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ipc_flatbuffers.html"><strong aria-hidden="true">3.1.</strong> Detour: FlatBuffers</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">4.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">4.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Arrow Kernels</a></li></ol></li><li class="chapter-item expanded "><a href="ipc_intro.html" class="active"><strong aria-hidden="true">3.</strong> Arrow IPC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ipc_flatbuffers.html"><strong aria-hidden="true">3.1.</strong> Detour: FlatBuffers</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">4.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">4.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,109 +163,41 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#arrays" id="arrays">Arrays</a></h1>
-<p>The Array is the center piece of the Rust Apache Arrow implementation. An array
-is defined by different pieces of data and metadata, as it can be seen in the
-next image.</p>
+                        <h1><a class="header" href="#arrow-ipc-interprocess-communication" id="arrow-ipc-interprocess-communication">Arrow IPC (Interprocess communication)</a></h1>
+<p>In the previous section we have seen how to create Arrow arrays and batches
+using the Rust API. This data could have been created from a running process
+executing a query, and now it can be used for data analytics by any process
+that requested it. Or probably, the generated piece of data is just part of a
+bigger calculation that needs to be sent to other nodes to complete the
+distributed operation. </p>
 <p align="center">
-  <img src="images/layout.png">
+  <img src="images/ipc.png">
 </p>
-<p>From the image it can be seen that an Array is composed of one or more buffers,
-a validity bitmap and a datatype definition. By using an Arrow Array, you can
-map complex or nested data structures into memory, and with the data ordered
-and loaded you can shared it across several processes using a RecordBatch. </p>
-<p>In Rust, the Array trait is the building block for all the available types of 
-data containers. These include:</p>
-<ul>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.BinaryArray.html">BinaryArray</a>
-An array where each element is a byte whose maximum length is represented by a
-i32. </p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.DictionaryArray.html">DictionaryArray</a>
-A dictionary array where each element is a single value indexed by an integer
-key</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.FixedSizeBinaryArray.html">FixedSizeBinaryArray</a>
-A type of FixedSizeListArray whose elements are binaries.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.FixedSizeBinaryArray.html">FixedSizeListArray</a>
-A type of FixedSizeListArray whose elements are binaries.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeBinaryArray.html">LargeBinaryArray</a>
-An array where each element is a byte whose maximum length is represented by a
-i64.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeListArray.html">LargeListArray</a>
-A list array where each element is a variable-sized sequence of values with
-the same type whose memory offsets between elements are represented by a i64.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.LargeStringArray.html">LargeStringArray</a>
-An array where each element is a variable-sized sequence of bytes representing
-a string whose maximum length (in bytes) is represented by a i64.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.ListArray.html">ListArray</a> A
-list array where each element is a variable-sized sequence of values with the
-same type whose memory offsets between elements are represented by a i32.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.PrimitiveArray.html">PrimitiveArray</a>
-Array whose elements are of primitive types.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/type.StringArray.html">StringArray</a>
-An array where each element is a variable-sized sequence of bytes representing
-a string whose maximum length (in bytes) is represented by a i32.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.StructArray.html">StructArray</a>
-A nested array type where each child (called field) is represented by a
-separate array.</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.NullArray.html">NullArray</a> An
-Array where all elements are nulls</p>
-</li>
-<li>
-<p><a href="https://docs.rs/arrow/3.0.0/arrow/array/struct.UnionArray.html">UnionArray</a>
-An Array that can represent slots of varying types.</p>
-</li>
-</ul>
-<p>Each of these containers follow a set of rules in order to define some sort of
-behaviour. For example, a PrimitiveArray is made out of elements of the same
-datatype and it contains one data buffer and one validity buffer. Or a
-StructArray is a nested Array containing child fields that represent separate
-PrimitiveArrays. By using a combination of these arrays the user
-is capable of storing a variety of data in memory. </p>
-<blockquote>
-<p><strong>Tip</strong>. To have a better idea of the components that make each of the
-mentioned arrays and how they work together have a look at this
-<a href="https://github.com/apache/arrow/blob/master/docs/source/format/Columnar.rst#physical-memory-layout">section</a>
-of the columnar format. </p>
-</blockquote>
-<p>Given the different components that define an array, it is important to
-understand the basic unit that allocates the required memory used to hold data;
-the buffer.</p>
+<p>As you can see, the consumer of the data may not be in the same node and doesn't
+have access to the memory and the Arrow data. For this, and many other reasons,
+the producer needs a way to be able to send and share data with other processes.</p>
+<p>Here is where the IPC specification starts to shine. In Arrow, the IPC is a
+standard specification that all implementations of Arrow follow so they can
+share data easily, and since all of them follow the same specification, there
+is no need to serialize and deserialize from one representation to another.</p>
+<p>In this section we are going to see how data can be sent between processes using
+the available IPC API, either by storing the data in disk or by sending it
+through the wire. We are going to start by describing the protocols that Arrow
+uses to send information about the data and after that we are going to see some
+examples to move and share Arrow data.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="arrays_operations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="arrays_buffer.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="ipc_flatbuffers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -277,13 +209,13 @@ the buffer.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="arrays_operations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="arrays_buffer.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="ipc_flatbuffers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 

@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html" class="active"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Operations with arrays</a></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">3.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reading_csv.html"><strong aria-hidden="true">3.1.</strong> Reading CSV files</a></li><li class="chapter-item expanded "><a href="reading_json.html"><strong aria-hidden="true">3.2.</strong> Reading JSON files</a></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">3.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> IPC and RecordBatch</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Creating a RecordBatch</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Detour: FlatBuffers</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.3.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html" class="active"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="arrays.html"><strong aria-hidden="true">2.</strong> Arrays</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="arrays_buffer.html"><strong aria-hidden="true">2.1.</strong> The buffer</a></li><li class="chapter-item expanded "><a href="arrays_data.html"><strong aria-hidden="true">2.2.</strong> Array data</a></li><li class="chapter-item expanded "><a href="arrays_primitive.html"><strong aria-hidden="true">2.3.</strong> Primitive array</a></li><li class="chapter-item expanded "><a href="arrays_nested.html"><strong aria-hidden="true">2.4.</strong> Nested arrays</a></li><li class="chapter-item expanded "><a href="arrays_recordbatch.html"><strong aria-hidden="true">2.5.</strong> RecordBatch</a></li><li class="chapter-item expanded "><a href="arrays_operations.html"><strong aria-hidden="true">2.6.</strong> Arrow Kernels</a></li></ol></li><li class="chapter-item expanded "><a href="ipc_intro.html"><strong aria-hidden="true">3.</strong> Arrow IPC</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ipc_flatbuffers.html"><strong aria-hidden="true">3.1.</strong> Detour: FlatBuffers</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Sharing data</div></li></ol></li><li class="chapter-item expanded "><a href="reading_files.html"><strong aria-hidden="true">4.</strong> Reading files</a></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">4.1.</strong> Reading CSV files</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.2.</strong> Reading JSON files</div></li><li class="chapter-item expanded "><a href="reading_parquet.html"><strong aria-hidden="true">4.3.</strong> Reading Parquet files</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Arrow Flight</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">5.1.</strong> Setting up a Server</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFusion</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">6.1.</strong> Query data</div></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> Ballista</div></li><li class="spacer"></li><li class="chapter-item expanded "><a href="contributors.html"><strong aria-hidden="true">8.</strong> Contributors</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -207,7 +207,9 @@ next to each other. This makes memory management harder to achieve because there
 are different datatypes next to each other; in this case a long, a date and a
 string. Each of these datatypes will have different memory requirements (for
 example, 8 bytes, 16 bytes or 32 bytes).</p>
-<p><img src="images/simd.png" alt="Columnar" /></p>
+<p align="center">
+  <img src="images/simd.png">
+</p>
 <p>By changing the in memory representation of the file to a columnar form (image
 above, right), the in-memory arrangement of the data becomes more efficient.
 Similar datatypes are stored next to each other, making the access and columnar
@@ -223,20 +225,26 @@ analysis is needed to be done on the data, maybe Pandas is used to read the data
 and extract information. Or, perhaps Spark is used to create a pipeline that
 reads the database in order to create a stream of data to feed a dashboard. The
 copy and convert process may end up looking like this:</p>
-<p><img src="images/copy.png" alt="Copy" /></p>
+<p align="center">
+  <img src="images/copy.png">
+</p>
 <p>As it can be seen, the data is copied and converted several times. This happens
 every time a process needs to query the data. </p>
 <p>By using a standard that all languages and processes can understand, the data
 doesn't need to be copied and converted. There can be a single in-memory data
 representation that can be used to feed all the required processes. The data
 sharing can be done regarding the language that is used.</p>
-<p><img src="images/shared.png" alt="Shared" /></p>
+<p align="center">
+  <img src="images/shared.png">
+</p>
 <p>And thanks to this standardization the data can also be shared with processes
 that don't share the same memory. By creating a data server, packets of data
 with known structure (RecordBatch) can be sent across computers (or pods) and
 the receiving process doesn't need to spend time coding and decoding the data
 to a known format. The data is ready to be used once its being received.</p>
-<p><img src="images/recordbatch.png" alt="Shared" /></p>
+<p align="center">
+  <img src="images/recordbatch.png">
+</p>
 <h2><a class="header" href="#the-rust-arrow-crate" id="the-rust-arrow-crate">The Rust Arrow crate</a></h2>
 <p>These and other collateral benefits can only be achieved thanks to the work done
 by the people collaborating in the Apache Arrow project. By looking at the
